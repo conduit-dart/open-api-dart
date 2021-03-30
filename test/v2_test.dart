@@ -87,7 +87,7 @@ void main() {
     });
 
     test("Can encode as JSON", () {
-      expect(json.encode(doc.asMap()), isInstanceOf<String>());
+      expect(json.encode(doc.asMap()), isA<String>());
     });
   });
 }
