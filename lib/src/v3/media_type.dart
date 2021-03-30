@@ -18,8 +18,8 @@ class APIMediaType extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    schema = object.decodeObject("schema", () => new APISchemaObject());
-    encoding = object.decodeObjectMap("encoding", () => new APIEncoding());
+    schema = object.decodeObject("schema", () => APISchemaObject());
+    encoding = object.decodeObjectMap("encoding", () => APIEncoding());
   }
 
   void encode(KeyedArchive object) {

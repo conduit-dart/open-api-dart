@@ -18,7 +18,7 @@ class APIDocument extends APIObject {
   }
 
   String version = "2.0";
-  APIInfo info = new APIInfo();
+  APIInfo info = APIInfo();
   String host;
   String basePath;
 
@@ -57,13 +57,15 @@ class APIDocument extends APIObject {
     produces = object["produces"];
     security = object["security"];
 
-    info = object.decodeObject("info", () => new APIInfo());
-    tags = object.decodeObjects("tags", () => new APITag());
-    paths = object.decodeObjectMap("paths", () => new APIPath());
-    responses = object.decodeObjectMap("responses", () => new APIResponse());
-    parameters = object.decodeObjectMap("parameters", () => new APIParameter());
-    definitions = object.decodeObjectMap("definitions", () => new APISchemaObject());
-    securityDefinitions = object.decodeObjectMap("securityDefinitions", () => new APISecurityScheme());
+    info = object.decodeObject("info", () => APIInfo());
+    tags = object.decodeObjects("tags", () => APITag());
+    paths = object.decodeObjectMap("paths", () => APIPath());
+    responses = object.decodeObjectMap("responses", () => APIResponse());
+    parameters = object.decodeObjectMap("parameters", () => APIParameter());
+    definitions =
+        object.decodeObjectMap("definitions", () => APISchemaObject());
+    securityDefinitions = object.decodeObjectMap(
+        "securityDefinitions", () => APISecurityScheme());
   }
 
   void encode(KeyedArchive object) {

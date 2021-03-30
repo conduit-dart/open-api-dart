@@ -15,10 +15,10 @@ void main() {
       // Spec file is too large for pub, and no other way to remove from pub publish
       // than putting in .gitignore. Therefore, this file must be downloaded locally
       // to this path, from this path: https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json.
-      var file = new File("test/specs/kubernetes.json");
+      var file = File("test/specs/kubernetes.json");
       var contents = file.readAsStringSync();
       original = json.decode(contents);
-      doc = new APIDocument.fromMap(original);
+      doc = APIDocument.fromMap(original);
     });
 
     test("Has all metadata", () {
@@ -58,15 +58,19 @@ void main() {
       expect(getNamespace.produces, contains("application/json"));
       expect(getNamespace.produces, contains("application/yaml"));
       expect(getNamespace.parameters.length, 8);
-      expect(getNamespace.parameters.firstWhere((p) => p.name == "limit").location, APIParameterLocation.query);
-      expect(getNamespace.parameters.firstWhere((p) => p.name == "limit").type, APIType.integer);
+      expect(
+          getNamespace.parameters.firstWhere((p) => p.name == "limit").location,
+          APIParameterLocation.query);
+      expect(getNamespace.parameters.firstWhere((p) => p.name == "limit").type,
+          APIType.integer);
       expect(getNamespace.responses.keys, contains("401"));
       expect(getNamespace.responses.keys, contains("200"));
 
       var postNamespace = namespacePath.operations["post"];
       expect(postNamespace.parameters.length, 1);
       expect(postNamespace.parameters.first.name, "body");
-      expect(postNamespace.parameters.first.location, APIParameterLocation.body);
+      expect(
+          postNamespace.parameters.first.location, APIParameterLocation.body);
     });
 
     test("Sample - Reference", () {
@@ -76,11 +80,14 @@ void main() {
       var schema = response.schema;
       expect(schema.description, contains("APIVersions lists the"));
       expect(schema.required, ["versions", "serverAddressByClientCIDRs"]);
-      expect(schema.properties["serverAddressByClientCIDRs"].items.properties["clientCIDR"].description, contains("The CIDR"));
+      expect(
+          schema.properties["serverAddressByClientCIDRs"].items
+              .properties["clientCIDR"].description,
+          contains("The CIDR"));
     });
 
     test("Can encode as JSON", () {
-      expect(json.encode(doc.asMap()), new isInstanceOf<String>());
+      expect(json.encode(doc.asMap()), isInstanceOf<String>());
     });
   });
 }

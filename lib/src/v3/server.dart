@@ -4,6 +4,7 @@ import 'package:open_api/src/object.dart';
 class APIServerDescription extends APIObject {
   APIServerDescription.empty();
   APIServerDescription(this.url, {this.description, this.variables});
+
   /// A URL to the target host.
   ///
   /// REQUIRED. This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the OpenAPI document is being served. Variable substitutions will be made when a variable is named in {brackets}.
@@ -25,14 +26,15 @@ class APIServerDescription extends APIObject {
     url = object.decode("url");
     description = object.decode("description");
     variables =
-        object.decodeObjectMap("variables", () => new APIServerVariable.empty());
+        object.decodeObjectMap("variables", () => APIServerVariable.empty());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (url == null) {
-      throw new ArgumentError("APIServerDescription must have non-null values for: 'url'.");
+      throw ArgumentError(
+          "APIServerDescription must have non-null values for: 'url'.");
     }
 
     object.encode("url", url);
@@ -44,7 +46,8 @@ class APIServerDescription extends APIObject {
 /// An object representing a Server Variable for server URL template substitution.
 class APIServerVariable extends APIObject {
   APIServerVariable.empty();
-  APIServerVariable(this.defaultValue, {this.availableValues, this.description});
+  APIServerVariable(this.defaultValue,
+      {this.availableValues, this.description});
 
   /// An enumeration of string values to be used if the substitution options are from a limited set.
   List<String> availableValues;
@@ -62,7 +65,7 @@ class APIServerVariable extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    availableValues = new List<String>.from(object.decode("enum"));
+    availableValues = List<String>.from(object.decode("enum"));
     defaultValue = object.decode("default");
     description = object.decode("description");
   }
@@ -71,7 +74,8 @@ class APIServerVariable extends APIObject {
     super.encode(object);
 
     if (defaultValue == null) {
-      throw new ArgumentError("APIServerVariable must have non-null values for: 'defaultValue'.");
+      throw ArgumentError(
+          "APIServerVariable must have non-null values for: 'defaultValue'.");
     }
 
     object.encode("enum", availableValues);

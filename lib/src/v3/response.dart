@@ -7,9 +7,11 @@ import 'package:open_api/src/v3/schema.dart';
 class APIResponse extends APIObject {
   APIResponse.empty();
   APIResponse(this.description, {this.content, this.headers});
-  APIResponse.schema(this.description, APISchemaObject schema, {Iterable<String> contentTypes: const ["application/json"], this.headers}) {
+  APIResponse.schema(this.description, APISchemaObject schema,
+      {Iterable<String> contentTypes = const ["application/json"],
+      this.headers}) {
     content = contentTypes.fold({}, (prev, elem) {
-      prev[elem] = new APIMediaType(schema: schema);
+      prev[elem] = APIMediaType(schema: schema);
       return prev;
     });
   }
@@ -55,7 +57,7 @@ class APIResponse extends APIObject {
     final key = contentType;
     final existingContent = content[key];
     if (existingContent == null) {
-      content[key] = new APIMediaType(schema: bodyObject);
+      content[key] = APIMediaType(schema: bodyObject);
       return;
     }
 
@@ -63,9 +65,7 @@ class APIResponse extends APIObject {
     if (schema?.oneOf != null) {
       schema.oneOf.add(bodyObject);
     } else {
-      final container = new APISchemaObject()..oneOf = [
-        schema, bodyObject
-      ];
+      final container = APISchemaObject()..oneOf = [schema, bodyObject];
       existingContent.schema = container;
     }
   }
@@ -74,17 +74,17 @@ class APIResponse extends APIObject {
     super.decode(object);
 
     description = object.decode("description");
-    content = object.decodeObjectMap("content", () => new APIMediaType());
-    headers = object.decodeObjectMap("headers", () => new APIHeader());
+    content = object.decodeObjectMap("content", () => APIMediaType());
+    headers = object.decodeObjectMap("headers", () => APIHeader());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (description == null) {
-      throw new ArgumentError("APIResponse must have non-null values for: 'description'.");
+      throw ArgumentError(
+          "APIResponse must have non-null values for: 'description'.");
     }
-
 
     object.encode("description", description);
     object.encodeObjectMap("headers", headers);

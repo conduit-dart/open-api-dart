@@ -42,10 +42,10 @@ class APISchemaObject extends APIProperty {
     example = json.decode("example");
     readOnly = json.decode("readOnly") ?? false;
 
-    items = json.decodeObject("items", () => new APISchemaObject());
-    additionalProperties = json.decodeObject("additionalProperties", () => new APISchemaObject());
-    properties =
-        json.decodeObjectMap("properties", () => new APISchemaObject());
+    items = json.decodeObject("items", () => APISchemaObject());
+    additionalProperties =
+        json.decodeObject("additionalProperties", () => APISchemaObject());
+    properties = json.decodeObjectMap("properties", () => APISchemaObject());
   }
 
   void encode(KeyedArchive json) {

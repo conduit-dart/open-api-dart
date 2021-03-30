@@ -19,14 +19,15 @@ class APICallback extends APIObject {
     paths = {};
     object.forEach((key, dynamic value) {
       if (value is! KeyedArchive) {
-        throw new ArgumentError("Invalid specification. Callback contains non-object value.");
+        throw ArgumentError(
+            "Invalid specification. Callback contains non-object value.");
       }
-      paths[key] = value.decode(key, inflate: () => new APIPath());
+      paths[key] = value.decode(key, inflate: () => APIPath());
     });
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
-    throw new StateError("APICallback.encode: not yet implemented.");
+    throw StateError("APICallback.encode: not yet implemented.");
   }
 }

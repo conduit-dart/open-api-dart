@@ -4,7 +4,12 @@ import 'package:open_api/src/v3/parameter.dart';
 
 /// A single encoding definition applied to a single schema property.
 class APIEncoding extends APIObject {
-  APIEncoding({this.contentType, this.headers, this.style, bool allowReserved, bool explode}) {
+  APIEncoding(
+      {this.contentType,
+      this.headers,
+      this.style,
+      bool allowReserved,
+      bool explode}) {
     this.allowReserved = allowReserved;
     this.explode = explode;
   }
@@ -25,14 +30,20 @@ class APIEncoding extends APIObject {
   ///
   /// The default value is false. This property SHALL be ignored if the request body media type is not application/x-www-form-urlencoded.
   bool get allowReserved => _allowReserved ?? false;
-  set allowReserved(bool f) { _allowReserved = f; }
+  set allowReserved(bool f) {
+    _allowReserved = f;
+  }
+
   bool _allowReserved;
 
   /// When this is true, property values of type array or object generate separate parameters for each value of the array, or key-value-pair of the map.
   ///
   /// For other types of properties this property has no effect. When style is form, the default value is true. For all other styles, the default value is false. This property SHALL be ignored if the request body media type is not application/x-www-form-urlencoded.
   bool get explode => _explode ?? false;
-  set explode(bool f) { _explode = f; }
+  set explode(bool f) {
+    _explode = f;
+  }
+
   bool _explode;
 
   /// Describes how a specific property value will be serialized depending on its type.
@@ -44,7 +55,7 @@ class APIEncoding extends APIObject {
     super.decode(object);
 
     contentType = object.decode("contentType");
-    headers = object.decodeObjectMap("headers", () => new APIHeader());
+    headers = object.decodeObjectMap("headers", () => APIHeader());
     _allowReserved = object.decode("allowReserved");
     _explode = object.decode("explode");
     style = object.decode("style");

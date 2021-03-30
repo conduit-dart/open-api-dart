@@ -22,30 +22,38 @@ class APISchemaObject extends APIObject {
   APISchemaObject.number() : type = APIType.number;
   APISchemaObject.integer() : type = APIType.integer;
   APISchemaObject.boolean() : type = APIType.boolean;
-  APISchemaObject.map({APIType ofType, APISchemaObject ofSchema, bool any: false}) : type = APIType.object {
+  APISchemaObject.map(
+      {APIType ofType, APISchemaObject ofSchema, bool any = false})
+      : type = APIType.object {
     if (ofType != null) {
-      additionalPropertySchema = new APISchemaObject()..type = ofType;
+      additionalPropertySchema = APISchemaObject()..type = ofType;
     } else if (ofSchema != null) {
       additionalPropertySchema = ofSchema;
     } else if (any) {
-
     } else {
-      throw new ArgumentError("Invalid 'APISchemaObject.map' with neither 'ofType', 'any' or 'ofSchema' specified.");
+      throw ArgumentError(
+          "Invalid 'APISchemaObject.map' with neither 'ofType', 'any' or 'ofSchema' specified.");
     }
   }
-  APISchemaObject.array({APIType ofType, APISchemaObject ofSchema}) : type = APIType.array {
+  APISchemaObject.array({APIType ofType, APISchemaObject ofSchema})
+      : type = APIType.array {
     if (ofType != null) {
-      items = new APISchemaObject()..type = ofType;
+      items = APISchemaObject()..type = ofType;
     } else if (ofSchema != null) {
       items = ofSchema;
     } else {
-      throw new ArgumentError("Invalid 'APISchemaObject.array' with neither 'ofType' or 'ofSchema' specified.");
+      throw ArgumentError(
+          "Invalid 'APISchemaObject.array' with neither 'ofType' or 'ofSchema' specified.");
     }
   }
-  APISchemaObject.object(this.properties): type = APIType.object;
-  APISchemaObject.file({bool isBase64Encoded: false}) : type = APIType.string, format = isBase64Encoded ? "byte" : "binary";
+  APISchemaObject.object(this.properties) : type = APIType.object;
+  APISchemaObject.file({bool isBase64Encoded = false})
+      : type = APIType.string,
+        format = isBase64Encoded ? "byte" : "binary";
 
-  APISchemaObject.freeForm() : type = APIType.object, additionalPropertyPolicy = APISchemaAdditionalPropertyPolicy.freeForm;
+  APISchemaObject.freeForm()
+      : type = APIType.object,
+        additionalPropertyPolicy = APISchemaAdditionalPropertyPolicy.freeForm;
 
   /// A title for the object.
   String title;
@@ -264,13 +272,13 @@ class APISchemaObject extends APIObject {
     //
 
     type = APITypeCodec.decode(object.decode("type"));
-    allOf = object.decodeObjects("allOf", () => new APISchemaObject());
-    anyOf = object.decodeObjects("anyOf", () => new APISchemaObject());
-    oneOf = object.decodeObjects("oneOf", () => new APISchemaObject());
-    not = object.decodeObject("not", () => new APISchemaObject());
+    allOf = object.decodeObjects("allOf", () => APISchemaObject());
+    anyOf = object.decodeObjects("anyOf", () => APISchemaObject());
+    oneOf = object.decodeObjects("oneOf", () => APISchemaObject());
+    not = object.decodeObject("not", () => APISchemaObject());
 
-    items = object.decodeObject("items", () => new APISchemaObject());
-    properties = object.decodeObjectMap("properties", () => new APISchemaObject());
+    items = object.decodeObject("items", () => APISchemaObject());
+    properties = object.decodeObjectMap("properties", () => APISchemaObject());
 
     final addlProps = object["additionalProperties"];
     if (addlProps is bool) {
@@ -283,7 +291,8 @@ class APISchemaObject extends APIObject {
       additionalPropertyPolicy = APISchemaAdditionalPropertyPolicy.freeForm;
     } else {
       additionalPropertyPolicy = APISchemaAdditionalPropertyPolicy.restricted;
-      additionalPropertySchema = object.decodeObject("additionalProperties", () => new APISchemaObject());
+      additionalPropertySchema =
+          object.decodeObject("additionalProperties", () => APISchemaObject());
     }
 
     description = object.decode("description");
@@ -326,9 +335,11 @@ class APISchemaObject extends APIObject {
 
     object.encodeObject("items", items);
     if (additionalPropertyPolicy != null || additionalPropertySchema != null) {
-      if (additionalPropertyPolicy == APISchemaAdditionalPropertyPolicy.disallowed) {
+      if (additionalPropertyPolicy ==
+          APISchemaAdditionalPropertyPolicy.disallowed) {
         object.encode("additionalProperties", false);
-      } else if (additionalPropertyPolicy == APISchemaAdditionalPropertyPolicy.freeForm) {
+      } else if (additionalPropertyPolicy ==
+          APISchemaAdditionalPropertyPolicy.freeForm) {
         object.encode("additionalProperties", true);
       } else {
         object.encodeObject("additionalProperties", additionalPropertySchema);

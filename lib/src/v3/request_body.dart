@@ -10,10 +10,13 @@ class APIRequestBody extends APIObject {
     this.isRequired = required;
   }
 
-  APIRequestBody.schema(APISchemaObject schema, {Iterable<String> contentTypes : const ["application/json"], this.description, bool required}) {
+  APIRequestBody.schema(APISchemaObject schema,
+      {Iterable<String> contentTypes = const ["application/json"],
+      this.description,
+      bool required}) {
     this.isRequired = required;
     this.content = contentTypes.fold({}, (prev, elem) {
-      prev[elem] = new APIMediaType(schema: schema);
+      prev[elem] = APIMediaType(schema: schema);
       return prev;
     });
   }
@@ -44,14 +47,15 @@ class APIRequestBody extends APIObject {
 
     description = object.decode("description");
     _required = object.decode("required");
-    content = object.decodeObjectMap("content", () => new APIMediaType());
+    content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (content == null) {
-      throw new ArgumentError("APIRequestBody must have non-null values for: 'content'.");
+      throw ArgumentError(
+          "APIRequestBody must have non-null values for: 'content'.");
     }
 
     object.encode("description", description);

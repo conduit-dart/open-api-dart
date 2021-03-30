@@ -121,7 +121,7 @@ class APIParameter extends APIObject {
 
   APIParameter.path(this.name)
       : location = APIParameterLocation.path,
-        schema = new APISchemaObject.string(),
+        schema = APISchemaObject.string(),
         _required = true;
 
   APIParameter.cookie(this.name,
@@ -158,7 +158,8 @@ class APIParameter extends APIObject {
   /// Determines whether this parameter is mandatory.
   ///
   /// If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.
-  bool get isRequired => (location == APIParameterLocation.path ? true : (_required ?? false));
+  bool get isRequired =>
+      (location == APIParameterLocation.path ? true : (_required ?? false));
 
   set isRequired(bool f) {
     _required = f;
@@ -240,18 +241,19 @@ class APIParameter extends APIObject {
     _deprecated = object.decode("deprecated");
     _allowEmptyValue = object.decode("allowEmptyValue");
 
-    schema = object.decodeObject("schema", () => new APISchemaObject());
+    schema = object.decodeObject("schema", () => APISchemaObject());
     style = object.decode("style");
     _explode = object.decode("explode");
     _allowReserved = object.decode("allowReserved");
-    content = object.decodeObjectMap("content", () => new APIMediaType());
+    content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (name == null || location == null) {
-      throw new ArgumentError("APIParameter must have non-null values for: 'name', 'location'.");
+      throw ArgumentError(
+          "APIParameter must have non-null values for: 'name', 'location'.");
     }
 
     object.encode("name", name);

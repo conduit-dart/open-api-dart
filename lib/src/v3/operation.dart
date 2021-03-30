@@ -85,7 +85,8 @@ class APIOperation extends APIObject {
   bool _deprecated = false;
 
   /// Returns the parameter named [name] or null if it doesn't exist.
-  APIParameter parameterNamed(String name) => parameters?.firstWhere((p) => p.name == name, orElse: () => null);
+  APIParameter parameterNamed(String name) =>
+      parameters?.firstWhere((p) => p.name == name, orElse: () => null);
 
   /// Adds [parameter] to [parameters].
   ///
@@ -124,7 +125,8 @@ class APIOperation extends APIObject {
       return;
     }
 
-    existingResponse.description = "${existingResponse.description ?? ""}\n${response.description}";
+    existingResponse.description =
+        "${existingResponse.description ?? ""}\n${response.description}";
     response.headers?.forEach((name, header) {
       existingResponse.addHeader(name, header);
     });
@@ -132,7 +134,6 @@ class APIOperation extends APIObject {
       existingResponse.addContent(contentType, mediaType.schema);
     });
   }
-
 
   @override
   Map<String, cast.Cast> get castMap => {"tags": cast.List(cast.String)};
@@ -144,20 +145,24 @@ class APIOperation extends APIObject {
     summary = object.decode("summary");
     description = object.decode("description");
     id = object.decode("operationId");
-    parameters = object.decodeObjects("parameters", () => new APIParameter.empty());
-    requestBody = object.decodeObject("requestBody", () => new APIRequestBody.empty());
-    responses = object.decodeObjectMap("responses", () => new APIResponse.empty());
-    callbacks = object.decodeObjectMap("callbacks", () => new APICallback());
+    parameters = object.decodeObjects("parameters", () => APIParameter.empty());
+    requestBody =
+        object.decodeObject("requestBody", () => APIRequestBody.empty());
+    responses = object.decodeObjectMap("responses", () => APIResponse.empty());
+    callbacks = object.decodeObjectMap("callbacks", () => APICallback());
     _deprecated = object.decode("deprecated");
-    security = object.decodeObjects("security", () => new APISecurityRequirement.empty());
-    servers = object.decodeObjects("servers", () => APIServerDescription.empty());
+    security =
+        object.decodeObjects("security", () => APISecurityRequirement.empty());
+    servers =
+        object.decodeObjects("servers", () => APIServerDescription.empty());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (responses == null) {
-      throw new ArgumentError("Invalid specification. APIOperation must have non-null values for: 'responses'.");
+      throw ArgumentError(
+          "Invalid specification. APIOperation must have non-null values for: 'responses'.");
     }
 
     object.encode("tags", tags);

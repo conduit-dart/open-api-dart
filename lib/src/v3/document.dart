@@ -56,22 +56,23 @@ class APIDocument extends APIObject {
     super.decode(object);
 
     version = object.decode("openapi");
-    info = object.decodeObject("info", () => new APIInfo.empty());
-    servers = object.decodeObjects("servers", () => new APIServerDescription.empty());
-    paths = object.decodeObjectMap("paths", () => new APIPath());
-    components =
-        object.decodeObject("components", () => new APIComponents());
+    info = object.decodeObject("info", () => APIInfo.empty());
+    servers =
+        object.decodeObjects("servers", () => APIServerDescription.empty());
+    paths = object.decodeObjectMap("paths", () => APIPath());
+    components = object.decodeObject("components", () => APIComponents());
     security = object.decode("security");
-    tags = object.decodeObjects("tags", () => new APITag.empty());
+    tags = object.decodeObjects("tags", () => APITag.empty());
   }
 
   void encode(KeyedArchive object) {
     super.encode(object);
 
     if (version == null || info == null || paths == null) {
-      throw new ArgumentError("APIDocument must have non-null values for: 'version', 'info', 'paths'.");
+      throw ArgumentError(
+          "APIDocument must have non-null values for: 'version', 'info', 'paths'.");
     }
-    
+
     object.encode("openapi", version);
     object.encodeObject("info", info);
     object.encodeObjects("servers", servers);

@@ -7,7 +7,8 @@ class APIInfo extends APIObject {
   APIInfo.empty();
 
   /// Creates empty metadata for specification.
-  APIInfo(this.title, this.version, {this.description, this.termsOfServiceURL, this.license, this.contact});
+  APIInfo(this.title, this.version,
+      {this.description, this.termsOfServiceURL, this.license, this.contact});
 
   /// The title of the application.
   ///
@@ -41,8 +42,8 @@ class APIInfo extends APIObject {
     title = object.decode("title");
     description = object.decode("description");
     termsOfServiceURL = object.decode("termsOfService");
-    contact = object.decodeObject("contact", () => new APIContact());
-    license = object.decodeObject("license", () => new APILicense.empty());
+    contact = object.decodeObject("contact", () => APIContact());
+    license = object.decodeObject("license", () => APILicense.empty());
     version = object.decode("version");
   }
 
@@ -50,7 +51,8 @@ class APIInfo extends APIObject {
     super.encode(object);
 
     if (title == null || version == null) {
-      throw new ArgumentError("APIInfo must have non-null values for: 'title', 'version'.");
+      throw ArgumentError(
+          "APIInfo must have non-null values for: 'title', 'version'.");
     }
 
     object.encode("title", title);
@@ -123,7 +125,7 @@ class APILicense extends APIObject {
     super.encode(object);
 
     if (name == null) {
-      throw new ArgumentError("APILicense must have non-null values for: 'name'.");
+      throw ArgumentError("APILicense must have non-null values for: 'name'.");
     }
 
     object.encode("name", name);
@@ -160,7 +162,7 @@ class APITag extends APIObject {
     super.encode(object);
 
     if (name == null) {
-      throw new ArgumentError("APITag must have non-null values for: 'name'.");
+      throw ArgumentError("APITag must have non-null values for: 'name'.");
     }
     object.encode("name", name);
     object.encode("description", description);

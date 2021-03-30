@@ -16,9 +16,9 @@ class APIPath extends APIObject {
       if (k == r"$ref") {
         // todo: reference
       } else if (k == "parameters") {
-        parameters = object.decodeObjects(k, () => new APIParameter());
+        parameters = object.decodeObjects(k, () => APIParameter());
       } else {
-        operations[k] = object.decodeObject(k, () => new APIOperation());
+        operations[k] = object.decodeObject(k, () => APIOperation());
       }
     });
   }
