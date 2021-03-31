@@ -1,5 +1,5 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
+import 'package:conduit_open_api/src/object.dart';
 
 /// Represents a metadata for an API in the OpenAPI specification.
 class APIInfo extends APIObject {

@@ -1,6 +1,6 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/path.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/path.dart';
 
 /// A map of possible out-of band callbacks related to the parent operation.
 ///

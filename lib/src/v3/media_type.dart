@@ -1,7 +1,7 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/encoding.dart';
-import 'package:open_api/src/v3/schema.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/encoding.dart';
+import 'package:conduit_open_api/src/v3/schema.dart';
 
 /// Each [APIMediaType] provides schema and examples for the media type identified by its key.
 class APIMediaType extends APIObject {

@@ -1,6 +1,6 @@
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_codable/cast.dart' as cast;
-import 'package:open_api/src/v2/property.dart';
+import 'package:conduit_open_api/src/v2/property.dart';
 
 /// Represents a schema object in the OpenAPI specification.
 class APISchemaObject extends APIProperty {

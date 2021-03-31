@@ -1,7 +1,7 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/media_type.dart';
-import 'package:open_api/src/v3/schema.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/media_type.dart';
+import 'package:conduit_open_api/src/v3/schema.dart';
 
 /// Describes a single request body.
 class APIRequestBody extends APIObject {

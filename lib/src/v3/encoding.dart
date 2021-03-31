@@ -1,7 +1,7 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/header.dart';
-import 'package:open_api/src/v3/parameter.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/header.dart';
+import 'package:conduit_open_api/src/v3/parameter.dart';
 
 /// A single encoding definition applied to a single schema property.
 class APIEncoding extends APIObject {

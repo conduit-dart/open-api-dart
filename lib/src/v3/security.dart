@@ -1,9 +1,9 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/components.dart';
-import 'package:open_api/src/v3/document.dart';
-import 'package:open_api/src/v3/operation.dart';
-import 'package:open_api/src/v3/parameter.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/components.dart';
+import 'package:conduit_open_api/src/v3/document.dart';
+import 'package:conduit_open_api/src/v3/operation.dart';
+import 'package:conduit_open_api/src/v3/parameter.dart';
 
 enum APISecuritySchemeType { apiKey, http, oauth2, openID }
 

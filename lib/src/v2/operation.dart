@@ -1,8 +1,8 @@
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_codable/cast.dart' as cast;
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v2/parameter.dart';
-import 'package:open_api/src/v2/response.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v2/parameter.dart';
+import 'package:conduit_open_api/src/v2/response.dart';
 
 /// Represents a HTTP operation (a path/method pair) in the OpenAPI specification.
 class APIOperation extends APIObject {

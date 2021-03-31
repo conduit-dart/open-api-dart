@@ -1,8 +1,8 @@
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/document.dart';
-import 'package:open_api/src/v3/media_type.dart';
-import 'package:open_api/src/v3/schema.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/document.dart';
+import 'package:conduit_open_api/src/v3/media_type.dart';
+import 'package:conduit_open_api/src/v3/schema.dart';
 
 /// There are four possible parameter locations specified by the in field.
 ///

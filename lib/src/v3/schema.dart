@@ -1,7 +1,7 @@
 import 'package:conduit_codable/cast.dart' as cast;
 import 'package:conduit_codable/conduit_codable.dart';
-import 'package:open_api/src/object.dart';
-import 'package:open_api/src/v3/types.dart';
+import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/v3/types.dart';
 
 enum APISchemaAdditionalPropertyPolicy {
   /// When [APISchemaObject] prevents properties other than those defined by [APISchemaObject.properties] from being included
