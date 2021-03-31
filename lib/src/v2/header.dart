@@ -9,6 +9,7 @@ class APIHeader extends APIProperty {
   String description;
   APIProperty items;
 
+  @override
   void decode(KeyedArchive json) {
     super.decode(json);
     description = json.decode("description");
@@ -17,6 +18,7 @@ class APIHeader extends APIProperty {
     }
   }
 
+  @override
   void encode(KeyedArchive json) {
     super.encode(json);
     json.encode("description", description);

@@ -3,8 +3,9 @@ import 'package:conduit_open_api/src/object.dart';
 
 /// An object representing a Server.
 class APIServerDescription extends APIObject {
-  APIServerDescription.empty();
   APIServerDescription(this.url, {this.description, this.variables});
+
+  APIServerDescription.empty();
 
   /// A URL to the target host.
   ///
@@ -21,6 +22,7 @@ class APIServerDescription extends APIObject {
   /// The value is used for substitution in the server's URL template.
   Map<String, APIServerVariable> variables;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -30,6 +32,7 @@ class APIServerDescription extends APIObject {
         object.decodeObjectMap("variables", () => APIServerVariable.empty());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -46,9 +49,10 @@ class APIServerDescription extends APIObject {
 
 /// An object representing a Server Variable for server URL template substitution.
 class APIServerVariable extends APIObject {
-  APIServerVariable.empty();
   APIServerVariable(this.defaultValue,
       {this.availableValues, this.description});
+
+  APIServerVariable.empty();
 
   /// An enumeration of string values to be used if the substitution options are from a limited set.
   List<String> availableValues;
@@ -63,6 +67,7 @@ class APIServerVariable extends APIObject {
   /// CommonMark syntax MAY be used for rich text representation.
   String description;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -71,6 +76,7 @@ class APIServerVariable extends APIObject {
     description = object.decode("description");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

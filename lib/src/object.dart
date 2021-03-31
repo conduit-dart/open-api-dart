@@ -15,13 +15,14 @@ class APIObject extends Coding {
     });
   }
 
+  @override
   @mustCallSuper
   void encode(KeyedArchive object) {
     final invalidKeys = extensions.keys
         .where((key) => !key.startsWith("x-"))
         .map((key) => "'$key'")
         .toList();
-    if (invalidKeys.length > 0) {
+    if (invalidKeys.isNotEmpty) {
       throw ArgumentError(
           "extension keys must start with 'x-'. The following keys are invalid: ${invalidKeys.join(", ")}");
     }

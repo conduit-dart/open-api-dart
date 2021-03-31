@@ -12,8 +12,6 @@ import 'package:conduit_open_api/src/v3/server.dart';
 
 /// Describes a single API operation on a path.
 class APIOperation extends APIObject {
-  APIOperation.empty();
-
   APIOperation(this.id, this.responses,
       {this.tags,
       this.summary,
@@ -25,6 +23,8 @@ class APIOperation extends APIObject {
       bool deprecated}) {
     isDeprecated = deprecated;
   }
+
+  APIOperation.empty();
 
   /// A list of tags for API documentation control.
   ///
@@ -137,8 +137,9 @@ class APIOperation extends APIObject {
   }
 
   @override
-  Map<String, cast.Cast> get castMap => {"tags": cast.List(cast.string)};
+  Map<String, cast.Cast> get castMap => {"tags": const cast.List(cast.string)};
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -158,6 +159,7 @@ class APIOperation extends APIObject {
         object.decodeObjects("servers", () => APIServerDescription.empty());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

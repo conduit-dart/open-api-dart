@@ -53,6 +53,7 @@ class APIDocument extends APIObject {
     return KeyedArchive.archive(this, allowReferences: true);
   }
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -66,6 +67,7 @@ class APIDocument extends APIObject {
     tags = object.decodeObjects("tags", () => APITag.empty());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

@@ -57,6 +57,7 @@ class APIParameter extends APIProperty {
   bool allowEmptyValue = false;
   APIProperty items;
 
+  @override
   void decode(KeyedArchive json) {
     name = json.decode("name");
     description = json.decode("description");
@@ -78,6 +79,7 @@ class APIParameter extends APIProperty {
     }
   }
 
+  @override
   void encode(KeyedArchive json) {
     json.encode("name", name);
     json.encode("description", description);

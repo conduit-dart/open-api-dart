@@ -5,18 +5,17 @@ import 'package:conduit_open_api/src/v3/schema.dart';
 
 /// Describes a single request body.
 class APIRequestBody extends APIObject {
-  APIRequestBody.empty();
-
   APIRequestBody(this.content, {this.description, bool required}) {
-    this.isRequired = required;
+    isRequired = required;
   }
+  APIRequestBody.empty();
 
   APIRequestBody.schema(APISchemaObject schema,
       {Iterable<String> contentTypes = const ["application/json"],
       this.description,
       bool required}) {
-    this.isRequired = required;
-    this.content = contentTypes.fold({}, (prev, elem) {
+    isRequired = required;
+    content = contentTypes.fold({}, (prev, elem) {
       prev[elem] = APIMediaType(schema: schema);
       return prev;
     });
@@ -43,6 +42,7 @@ class APIRequestBody extends APIObject {
 
   bool _required;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -51,6 +51,7 @@ class APIRequestBody extends APIObject {
     content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

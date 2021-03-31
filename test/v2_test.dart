@@ -1,10 +1,11 @@
 // Copyright (c) 2017, joeconway. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:conduit_open_api/v2.dart';
 import 'package:test/test.dart';
-import 'dart:io';
-import 'dart:convert';
 
 void main() {
   group("Kubernetes spec", () {
@@ -15,8 +16,8 @@ void main() {
       // Spec file is too large for pub, and no other way to remove from pub publish
       // than putting in .gitignore. Therefore, this file must be downloaded locally
       // to this path, from this path: https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json.
-      var file = File("test/specs/kubernetes.json");
-      var contents = file.readAsStringSync();
+      final file = File("test/specs/kubernetes.json");
+      final contents = file.readAsStringSync();
       original = json.decode(contents);
       doc = APIDocument.fromMap(original);
     });
@@ -43,16 +44,16 @@ void main() {
       expect(doc.paths.length, greaterThan(0));
       expect(doc.paths.length, original["paths"].length);
 
-      Map<String, dynamic> originalPaths = original["paths"];
+      final Map<String, dynamic> originalPaths = original["paths"];
       doc.paths.forEach((k, v) {
         expect(originalPaths.keys.contains(k), true);
       });
     });
 
     test("Sample - Namespace", () {
-      var namespacePath = doc.paths["/api/v1/namespaces"];
+      final namespacePath = doc.paths["/api/v1/namespaces"];
 
-      var getNamespace = namespacePath.operations["get"];
+      final getNamespace = namespacePath.operations["get"];
       expect(getNamespace.description, contains("of kind Namespace"));
       expect(getNamespace.consumes, ["*/*"]);
       expect(getNamespace.produces, contains("application/json"));
@@ -66,7 +67,7 @@ void main() {
       expect(getNamespace.responses.keys, contains("401"));
       expect(getNamespace.responses.keys, contains("200"));
 
-      var postNamespace = namespacePath.operations["post"];
+      final postNamespace = namespacePath.operations["post"];
       expect(postNamespace.parameters.length, 1);
       expect(postNamespace.parameters.first.name, "body");
       expect(
@@ -74,10 +75,10 @@ void main() {
     });
 
     test("Sample - Reference", () {
-      var apiPath = doc.paths["/api/"];
-      var apiPathGet = apiPath.operations["get"];
-      var response = apiPathGet.responses["200"];
-      var schema = response.schema;
+      final apiPath = doc.paths["/api/"];
+      final apiPathGet = apiPath.operations["get"];
+      final response = apiPathGet.responses["200"];
+      final schema = response.schema;
       expect(schema.description, contains("APIVersions lists the"));
       expect(schema.required, ["versions", "serverAddressByClientCIDRs"]);
       expect(

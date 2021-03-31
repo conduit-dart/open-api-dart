@@ -13,6 +13,7 @@ class APIInfo extends APIObject {
   APIContact contact = APIContact();
   APILicense license = APILicense();
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -24,6 +25,7 @@ class APIInfo extends APIObject {
     version = object.decode("version");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -40,6 +42,7 @@ class APIInfo extends APIObject {
 class APIContact extends APIObject {
   APIContact();
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -52,6 +55,7 @@ class APIContact extends APIObject {
   String url = "http://localhost";
   String email = "default";
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -65,6 +69,7 @@ class APIContact extends APIObject {
 class APILicense extends APIObject {
   APILicense();
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -75,6 +80,7 @@ class APILicense extends APIObject {
   String name = "default";
   String url = "http://localhost";
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -86,6 +92,7 @@ class APILicense extends APIObject {
 class APITag extends APIObject {
   APITag();
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -96,6 +103,7 @@ class APITag extends APIObject {
   String name;
   String description;
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

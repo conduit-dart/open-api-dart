@@ -97,6 +97,7 @@ class APIComponents extends APIObject {
     return resolveUri(refObject.referenceURI);
   }
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -115,6 +116,7 @@ class APIComponents extends APIObject {
     callbacks = object.decodeObjectMap("callbacks", () => APICallback());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

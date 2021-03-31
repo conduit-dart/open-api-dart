@@ -1,7 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:conduit_open_api/v3.dart';
 import 'package:test/test.dart';
-import 'dart:io';
-import 'dart:convert';
 
 void main() {
   group("Components and resolution", () {
@@ -92,8 +93,8 @@ void main() {
       // Spec file is too large for pub, and no other way to remove from pub publish
       // than putting in .gitignore. Therefore, this file must be downloaded locally
       // to this path, from this path: https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
-      var file = File("test/specs/stripe.json");
-      var contents = file.readAsStringSync();
+      final file = File("test/specs/stripe.json");
+      final contents = file.readAsStringSync();
       original = json.decode(contents);
       doc = APIDocument.fromMap(original);
     });
@@ -238,7 +239,7 @@ void main() {
 
   group("'add' methods", () {
     test("'addHeader'", () {
-      var resp = APIResponse("Response");
+      final resp = APIResponse("Response");
 
       // when null
       resp.addHeader(
@@ -259,7 +260,7 @@ void main() {
     });
 
     test("'addContent'", () {
-      var resp = APIResponse("Response");
+      final resp = APIResponse("Response");
 
       // when null
       resp.addContent("x/a", APISchemaObject.string(format: "initial"));
@@ -279,7 +280,7 @@ void main() {
     });
 
     test("'addResponse'", () {
-      var op = APIOperation("op", null);
+      final op = APIOperation("op", null);
 
       // when null
       op.addResponse(200,
@@ -320,7 +321,7 @@ void main() {
     });
 
     test("'addResponse' guards against null value", () {
-      var op = APIOperation("op", null);
+      final op = APIOperation("op", null);
 
       op.addResponse(
           400,

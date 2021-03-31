@@ -10,6 +10,7 @@ class APIPath extends APIObject {
   List<APIParameter> parameters = [];
   Map<String, APIOperation> operations = {};
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -24,6 +25,7 @@ class APIPath extends APIObject {
     });
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

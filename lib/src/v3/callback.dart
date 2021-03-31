@@ -14,6 +14,7 @@ class APICallback extends APIObject {
   /// The key that identifies the [APIPath] is a runtime expression that can be evaluated in the context of a runtime HTTP request/response to identify the URL to be used for the callback request. A simple example might be $request.body#/url.
   Map<String, APIPath> paths;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -27,6 +28,7 @@ class APICallback extends APIObject {
     });
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
     throw StateError("APICallback.encode: not yet implemented.");

@@ -77,8 +77,9 @@ class APISecurityScheme extends APIObject {
 
   @override
   Map<String, cast.Cast> get castMap =>
-      {"scopes": cast.Map(cast.string, cast.string)};
+      {"scopes": const cast.Map(cast.string, cast.string)};
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -97,6 +98,7 @@ class APISecurityScheme extends APIObject {
     }
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

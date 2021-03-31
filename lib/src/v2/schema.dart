@@ -31,8 +31,9 @@ class APISchemaObject extends APIProperty {
   }
 
   @override
-  Map<String, cast.Cast> get castMap => {"required": cast.List(cast.string)};
+  Map<String, cast.Cast> get castMap => {"required": const cast.List(cast.string)};
 
+  @override
   void decode(KeyedArchive json) {
     super.decode(json);
 
@@ -48,6 +49,7 @@ class APISchemaObject extends APIProperty {
     properties = json.decodeObjectMap("properties", () => APISchemaObject());
   }
 
+  @override
   void encode(KeyedArchive json) {
     super.encode(json);
 

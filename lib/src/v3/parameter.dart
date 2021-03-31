@@ -65,8 +65,6 @@ class APIParameterLocationCodec {
 ///
 /// A unique parameter is defined by a combination of a [name] and [location].
 class APIParameter extends APIObject {
-  APIParameter.empty();
-
   APIParameter(this.name, this.location,
       {this.description,
       this.schema,
@@ -77,12 +75,14 @@ class APIParameter extends APIObject {
       bool allowEmptyValue,
       bool explode,
       bool allowReserved}) {
-    this.isRequired = required;
-    this.isDeprecated = deprecated;
+    isRequired = required;
+    isDeprecated = deprecated;
     this.allowEmptyValue = allowEmptyValue;
     this.allowReserved = allowReserved;
     this.explode = explode;
   }
+
+  APIParameter.empty();
 
   APIParameter.header(this.name,
       {this.description,
@@ -94,12 +94,12 @@ class APIParameter extends APIObject {
       bool allowEmptyValue,
       bool explode,
       bool allowReserved}) {
-    this.isRequired = required;
-    this.isDeprecated = deprecated;
+    isRequired = required;
+    isDeprecated = deprecated;
     this.allowEmptyValue = allowEmptyValue;
     this.allowReserved = allowReserved;
     this.explode = explode;
-    this.location = APIParameterLocation.header;
+    location = APIParameterLocation.header;
   }
 
   APIParameter.query(this.name,
@@ -112,12 +112,12 @@ class APIParameter extends APIObject {
       bool allowEmptyValue,
       bool explode,
       bool allowReserved}) {
-    this.isRequired = required;
-    this.isDeprecated = deprecated;
+    isRequired = required;
+    isDeprecated = deprecated;
     this.allowEmptyValue = allowEmptyValue;
     this.allowReserved = allowReserved;
     this.explode = explode;
-    this.location = APIParameterLocation.query;
+    location = APIParameterLocation.query;
   }
 
   APIParameter.path(this.name)
@@ -135,12 +135,12 @@ class APIParameter extends APIObject {
       bool allowEmptyValue,
       bool explode,
       bool allowReserved}) {
-    this.isRequired = required;
-    this.isDeprecated = deprecated;
+    isRequired = required;
+    isDeprecated = deprecated;
     this.allowEmptyValue = allowEmptyValue;
     this.allowReserved = allowReserved;
     this.explode = explode;
-    this.location = APIParameterLocation.cookie;
+    location = APIParameterLocation.cookie;
   }
 
   /// The name of the parameter.
@@ -160,7 +160,7 @@ class APIParameter extends APIObject {
   ///
   /// If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.
   bool get isRequired =>
-      (location == APIParameterLocation.path ? true : (_required ?? false));
+      location == APIParameterLocation.path ? true : (_required ?? false);
 
   set isRequired(bool f) {
     _required = f;
@@ -231,6 +231,7 @@ class APIParameter extends APIObject {
   // Currently missing:
   // example, examples
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -249,6 +250,7 @@ class APIParameter extends APIObject {
     content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

@@ -41,12 +41,13 @@ class APIDocument extends APIObject {
 
   @override
   Map<String, cast.Cast> get castMap => {
-        "schemes": cast.List(cast.string),
-        "consumes": cast.List(cast.string),
-        "produces": cast.List(cast.string),
-        "security": cast.List(cast.Map(cast.string, cast.List(cast.string)))
+        "schemes": const cast.List(cast.string),
+        "consumes": const cast.List(cast.string),
+        "produces": const cast.List(cast.string),
+        "security": const cast.List(cast.Map(cast.string, cast.List(cast.string)))
       };
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -69,6 +70,7 @@ class APIDocument extends APIObject {
         "securityDefinitions", () => APISecurityScheme());
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

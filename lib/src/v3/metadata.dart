@@ -5,11 +5,11 @@ import 'package:conduit_open_api/src/object.dart';
 ///
 /// The metadata MAY be used by the clients if needed, and MAY be presented in editing or documentation generation tools for convenience.
 class APIInfo extends APIObject {
-  APIInfo.empty();
-
   /// Creates empty metadata for specification.
   APIInfo(this.title, this.version,
       {this.description, this.termsOfServiceURL, this.license, this.contact});
+
+  APIInfo.empty();
 
   /// The title of the application.
   ///
@@ -37,6 +37,7 @@ class APIInfo extends APIObject {
   /// The license information for the exposed API.
   APILicense license;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -48,6 +49,7 @@ class APIInfo extends APIObject {
     version = object.decode("version");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -83,6 +85,7 @@ class APIContact extends APIObject {
   /// MUST be in the format of an email address.
   String email;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -91,6 +94,7 @@ class APIContact extends APIObject {
     email = object.decode("email");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -102,8 +106,8 @@ class APIContact extends APIObject {
 
 /// License information for the exposed API.
 class APILicense extends APIObject {
-  APILicense.empty();
   APILicense(this.name, {this.url});
+  APILicense.empty();
 
   /// The license name used for the API.
   ///
@@ -115,6 +119,7 @@ class APILicense extends APIObject {
   /// MUST be in the format of a URL.
   Uri url;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -122,6 +127,7 @@ class APILicense extends APIObject {
     url = object.decode("url");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
@@ -138,9 +144,9 @@ class APILicense extends APIObject {
 ///
 /// It is not mandatory to have a [APITag] per tag defined in the [APIOperation] instances.
 class APITag extends APIObject {
-  APITag.empty();
-
   APITag(this.name, {this.description});
+
+  APITag.empty();
 
   /// The name of the tag.
   ///
@@ -152,6 +158,7 @@ class APITag extends APIObject {
   /// CommonMark syntax MAY be used for rich text representation.
   String description;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -159,6 +166,7 @@ class APITag extends APIObject {
     description = object.decode("description");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

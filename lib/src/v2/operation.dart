@@ -10,11 +10,11 @@ class APIOperation extends APIObject {
 
   @override
   Map<String, cast.Cast> get castMap => {
-        "tags": cast.List(cast.string),
-        "consumes": cast.List(cast.string),
-        "produces": cast.List(cast.string),
-        "schemes": cast.List(cast.string),
-        "security": cast.List(cast.Map(cast.string, cast.List(cast.string))),
+        "tags": const cast.List(cast.string),
+        "consumes": const cast.List(cast.string),
+        "produces": const cast.List(cast.string),
+        "schemes": const cast.List(cast.string),
+        "security": const cast.List(cast.Map(cast.string, cast.List(cast.string))),
       };
 
   String summary = "";
@@ -30,6 +30,7 @@ class APIOperation extends APIObject {
   List<Map<String, List<String>>> security = [];
   Map<String, APIResponse> responses = {};
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -46,6 +47,7 @@ class APIOperation extends APIObject {
     security = object.decode("security");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

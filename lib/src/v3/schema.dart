@@ -248,8 +248,9 @@ class APISchemaObject extends APIObject {
   bool _deprecated;
 
   @override
-  Map<String, cast.Cast> get castMap => {"required": cast.List(cast.string)};
+  Map<String, cast.Cast> get castMap => {"required": const cast.List(cast.string)};
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -306,6 +307,7 @@ class APISchemaObject extends APIObject {
     _deprecated = object.decode("deprecated");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 

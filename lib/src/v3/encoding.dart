@@ -52,6 +52,7 @@ class APIEncoding extends APIObject {
   /// See [APIParameter] for details on the style property. The behavior follows the same values as query parameters, including default values. This property SHALL be ignored if the request body media type is not application/x-www-form-urlencoded.
   String style;
 
+  @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
@@ -62,6 +63,7 @@ class APIEncoding extends APIObject {
     style = object.decode("style");
   }
 
+  @override
   void encode(KeyedArchive object) {
     super.encode(object);
 
