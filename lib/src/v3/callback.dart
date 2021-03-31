@@ -24,7 +24,7 @@ class APICallback extends APIObject {
         throw ArgumentError(
             "Invalid specification. Callback contains non-object value.");
       }
-      paths[key] = value.decode(key, inflate: () => APIPath());
+      paths[key] = value.decode(key, inflate: () => APIPath()) as APIPath;
     });
   }
 

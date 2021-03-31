@@ -10,9 +10,9 @@ class APIObject extends Coding {
     super.decode(object);
 
     final extensionKeys = object.keys.where((k) => k.startsWith("x-"));
-    extensionKeys.forEach((key) {
+    for (final key in extensionKeys) {
       extensions[key] = object.decode(key);
-    });
+    }
   }
 
   @override

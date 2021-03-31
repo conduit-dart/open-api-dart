@@ -44,20 +44,21 @@ class APIDocument extends APIObject {
         "schemes": const cast.List(cast.string),
         "consumes": const cast.List(cast.string),
         "produces": const cast.List(cast.string),
-        "security": const cast.List(cast.Map(cast.string, cast.List(cast.string)))
+        "security":
+            const cast.List(cast.Map(cast.string, cast.List(cast.string)))
       };
 
   @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    version = object["swagger"];
-    host = object["host"];
-    basePath = object["basePath"];
-    schemes = object["schemes"];
-    consumes = object["consumes"];
-    produces = object["produces"];
-    security = object["security"];
+    version = object["swagger"] as String;
+    host = object["host"] as String;
+    basePath = object["basePath"] as String;
+    schemes = object["schemes"] as List<String>;
+    consumes = object["consumes"] as List<String>;
+    produces = object["produces"] as List<String>;
+    security = object["security"] as List<Map<String, List<String>>>;
 
     info = object.decodeObject("info", () => APIInfo());
     tags = object.decodeObjects("tags", () => APITag());

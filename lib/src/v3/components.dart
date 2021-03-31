@@ -56,7 +56,7 @@ class APIComponents extends APIObject {
           "Invalid reference URI: does not begin with /components/");
     }
 
-    var namedMap = null;
+    Map<String, APIObject> namedMap;
     switch (segments[1]) {
       case "schemas":
         namedMap = schemas;
@@ -94,7 +94,7 @@ class APIComponents extends APIObject {
       throw ArgumentError("APIObject is not a reference to a component.");
     }
 
-    return resolveUri(refObject.referenceURI);
+    return resolveUri(refObject.referenceURI) as T;
   }
 
   @override

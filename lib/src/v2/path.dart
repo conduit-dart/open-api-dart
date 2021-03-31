@@ -14,7 +14,7 @@ class APIPath extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    object.keys.forEach((k) {
+    for (final k in object.keys) {
       if (k == r"$ref") {
         // todo: reference
       } else if (k == "parameters") {
@@ -22,7 +22,7 @@ class APIPath extends APIObject {
       } else {
         operations[k] = object.decodeObject(k, () => APIOperation());
       }
-    });
+    }
   }
 
   @override

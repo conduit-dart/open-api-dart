@@ -277,9 +277,9 @@ class APISecurityRequirement extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    object.keys.forEach((key) {
+    for (final key in object.keys) {
       final req = List<String>.from(object.decode(key));
       requirements[key] = req;
-    });
+    }
   }
 }

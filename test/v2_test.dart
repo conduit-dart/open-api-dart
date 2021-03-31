@@ -18,7 +18,7 @@ void main() {
       // to this path, from this path: https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json.
       final file = File("test/specs/kubernetes.json");
       final contents = file.readAsStringSync();
-      original = json.decode(contents);
+      original = json.decode(contents) as Map<String, dynamic> ;
       doc = APIDocument.fromMap(original);
     });
 
@@ -44,7 +44,7 @@ void main() {
       expect(doc.paths.length, greaterThan(0));
       expect(doc.paths.length, original["paths"].length);
 
-      final Map<String, dynamic> originalPaths = original["paths"];
+      final Map<String, dynamic> originalPaths = original["paths"] as Map<String, dynamic> ;
       doc.paths.forEach((k, v) {
         expect(originalPaths.keys.contains(k), true);
       });

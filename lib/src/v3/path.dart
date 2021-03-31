@@ -65,14 +65,14 @@ class APIPath extends APIObject {
       "patch",
       "trace"
     ];
-    methodNames.forEach((methodName) {
+    for(final methodName in  methodNames) {
       if (!object.containsKey(methodName)) {
         return;
       }
       operations ??= {};
       operations[methodName] =
           object.decodeObject(methodName, () => APIOperation.empty());
-    });
+    }
   }
 
   @override

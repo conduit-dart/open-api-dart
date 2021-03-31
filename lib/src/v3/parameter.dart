@@ -160,6 +160,7 @@ class APIParameter extends APIObject {
   ///
   /// If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.
   bool get isRequired =>
+      // ignore: avoid_bool_literals_in_conditional_expressions
       location == APIParameterLocation.path ? true : (_required ?? false);
 
   set isRequired(bool f) {

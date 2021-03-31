@@ -17,7 +17,7 @@ void main() {
       expect(ref.type, isNull);
 
       final APISchemaObject constructed =
-          components.resolveUri(Uri(path: "/components/schemas/foo"));
+          components.resolveUri(Uri(path: "/components/schemas/foo")) as APISchemaObject;
       expect(constructed.type, APIType.string);
     });
 
@@ -27,6 +27,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("#/components/schemas/foo"));
         expect(true, false);
+      // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -35,6 +36,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("#/components/schemas"));
         expect(true, false);
+      // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -43,6 +45,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("/components/foobar/foo"));
         expect(true, false);
+      // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -95,7 +98,7 @@ void main() {
       // to this path, from this path: https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
       final file = File("test/specs/stripe.json");
       final contents = file.readAsStringSync();
-      original = json.decode(contents);
+      original = json.decode(contents) as Map<String, dynamic> ;
       doc = APIDocument.fromMap(original);
     });
 
@@ -339,5 +342,5 @@ void main() {
           2);
     });
   });
-  ;
+  
 }
