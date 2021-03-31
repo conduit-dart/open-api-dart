@@ -1,7 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:codable/codable.dart';
-
-export 'package:codable/codable.dart';
+import 'package:conduit_codable/conduit_codable.dart';
 
 class APIObject extends Coding {
   Map<String, dynamic> extensions = {};

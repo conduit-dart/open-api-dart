@@ -1,4 +1,4 @@
-import 'package:codable/codable.dart';
+import 'package:conduit_codable/conduit_codable.dart';
 import 'package:open_api/src/v2/property.dart';
 import 'package:open_api/src/v2/schema.dart';
 import 'package:open_api/src/v2/types.dart';

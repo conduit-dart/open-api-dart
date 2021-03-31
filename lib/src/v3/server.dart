@@ -1,3 +1,4 @@
+import 'package:conduit_codable/conduit_codable.dart';
 import 'package:open_api/src/object.dart';
 
 /// An object representing a Server.

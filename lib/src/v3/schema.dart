@@ -1,4 +1,5 @@
-import 'package:codable/cast.dart' as cast;
+import 'package:conduit_codable/cast.dart' as cast;
+import 'package:conduit_codable/conduit_codable.dart';
 import 'package:open_api/src/object.dart';
 import 'package:open_api/src/v3/types.dart';
 
@@ -247,7 +248,7 @@ class APISchemaObject extends APIObject {
   bool _deprecated;
 
   @override
-  Map<String, cast.Cast> get castMap => {"required": cast.List(cast.String)};
+  Map<String, cast.Cast> get castMap => {"required": cast.List(cast.string)};
 
   void decode(KeyedArchive object) {
     super.decode(object);
