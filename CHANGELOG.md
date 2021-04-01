@@ -1,3 +1,11 @@
+# 1.0.0-b3
+Improved the readme.
+Merge branch 'master' of https://github.com/noojee/open-api-dart-1
+Merge remote-tracking branch 'upstream/master'
+NNBD (#1)
+replace travis with github actions
+work on nndb migration and migration to conduit_codable (#1)
+
 # 1.0.0-b2
 restored the kubenetes test file as we found a v2 version. reverted some fields to be nullable as the document uses null to know that they were not present in the original document.
 Remove the curl commands as the unit tests now fetch the required files themselves.
