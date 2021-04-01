@@ -54,14 +54,14 @@ class APIDocument extends APIObject {
     super.decode(object);
 
     version = object["swagger"] as String;
-    host = object["host"] as String? ?? 'not set';
-    basePath = object["basePath"] as String? ?? 'not set';
+    host = object["host"] as String?;
+    basePath = object["basePath"] as String?;
     schemes = removeNullsFromList(object["schemes"] as List<String?>?);
 
     /// remove
     consumes = removeNullsFromList(object["consumes"] as List<String?>?);
     produces = removeNullsFromList(object["produces"] as List<String?>?);
-    security = object["security"] as List<Map<String, List<String>>>?;
+    security = object["security"] as List<Map<String, List<String?>>?>;
 
     info = object.decodeObject("info", () => APIInfo());
     tags = object.decodeObjects("tags", () => APITag());
@@ -73,7 +73,6 @@ class APIDocument extends APIObject {
     securityDefinitions = object.decodeObjectMap(
         "securityDefinitions", () => APISecurityScheme());
   }
-
 
   @override
   void encode(KeyedArchive object) {
