@@ -27,7 +27,7 @@ class APIDocument extends APIObject {
   List<String>? schemes = [];
   List<String>? consumes = [];
   List<String>? produces = [];
-  List<Map<String, List<String?>>?> security = [];
+  List<Map<String, List<String?>>?>? security = [];
 
   Map<String, APIPath?>? paths = {};
   Map<String, APIResponse?>? responses = {};
@@ -53,12 +53,14 @@ class APIDocument extends APIObject {
     super.decode(object);
 
     version = object["swagger"] as String;
-    host = object["host"] as String;
-    basePath = object["basePath"] as String;
-    schemes = object["schemes"] as List<String>;
-    consumes = object["consumes"] as List<String>;
-    produces = object["produces"] as List<String>;
-    security = object["security"] as List<Map<String, List<String>>>;
+    host = object["host"] as String? ?? 'not set';
+    basePath = object["basePath"] as String? ?? 'not set';
+    schemes = removeNulls(object["schemes"] as List<String?>?);
+
+    /// remove
+    consumes = removeNulls(object["consumes"] as List<String?>?);
+    produces = removeNulls(object["produces"] as List<String?>?);
+    security = object["security"] as List<Map<String, List<String>>>?;
 
     info = object.decodeObject("info", () => APIInfo());
     tags = object.decodeObjects("tags", () => APITag());
@@ -69,6 +71,16 @@ class APIDocument extends APIObject {
         object.decodeObjectMap("definitions", () => APISchemaObject());
     securityDefinitions = object.decodeObjectMap(
         "securityDefinitions", () => APISecurityScheme());
+  }
+
+  /// Remove any null entries from the list and convert the type.
+  /// In reality I don't think the list can have nulls but we still
+  /// need the conversion.
+  List<String>? removeNulls(List<String?>? list) {
+    if (list == null) return null;
+
+    // remove nulls and convert to List<String>
+    return List.from(list.where((c) => c != null));
   }
 
   @override

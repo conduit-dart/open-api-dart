@@ -107,7 +107,7 @@ class APISecurityScheme extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    type = APISecuritySchemeTypeCodec.decode(object.decode("type"))!;
+    type = APISecuritySchemeTypeCodec.decode(object.decode("type"));
     description = object.decode("description");
 
     switch (type) {
@@ -149,7 +149,7 @@ class APISecurityScheme extends APIObject {
           "APISecurityScheme must have non-null values for: 'type'.");
     }
 
-    object.encode("type", APISecuritySchemeTypeCodec.encode(type!));
+    object.encode("type", APISecuritySchemeTypeCodec.encode(type));
     object.encode("description", description);
 
     switch (type) {
@@ -161,7 +161,7 @@ class APISecurityScheme extends APIObject {
           }
 
           object.encode("name", name);
-          object.encode("in", APIParameterLocationCodec.encode(location!));
+          object.encode("in", APIParameterLocationCodec.encode(location));
         }
         break;
       case APISecuritySchemeType.oauth2:
@@ -251,8 +251,7 @@ class APISecuritySchemeOAuth2Flow extends APIObject {
 
     tokenURL = object.decode("tokenUrl");
     refreshURL = object.decode("refreshUrl");
-
-    scopes = Map<String, String>.from(object.decode("scopes"));
+    scopes = object.decode<Map<String, String>>("scopes");
   }
 }
 
@@ -276,9 +275,11 @@ class APISecurityRequirement extends APIObject {
   void encode(KeyedArchive object) {
     super.encode(object);
 
-    requirements?.forEach((key, value) {
-      object.encode(key, value);
-    });
+    if (requirements != null) {
+      requirements!.forEach((key, value) {
+        object.encode(key, value);
+      });
+    }
   }
 
   @override
@@ -286,8 +287,12 @@ class APISecurityRequirement extends APIObject {
     super.decode(object);
 
     for (final key in object.keys) {
-      final req = List<String>.from(object.decode(key));
-      requirements[key] = req;
+      final decoded = object.decode<Iterable<dynamic>>(key);
+      if (decoded != null) {
+        final req = List<String>.from(decoded);
+        requirements ??= <String, List<String>>{};
+        requirements![key] = req;
+      }
     }
   }
 }

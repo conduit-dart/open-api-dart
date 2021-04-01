@@ -26,9 +26,7 @@ class APIServerDescription extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    url = object.decode("url") != null
-        ? Uri.tryParse(object.decode("url"))
-        : null;
+    url = object.decode("url");
     description = object.decode("description");
     variables =
         object.decodeObjectMap("variables", () => APIServerVariable.empty());
@@ -73,7 +71,8 @@ class APIServerVariable extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    availableValues = List<String>.from(object.decode("enum"));
+    final enumMap = object.decode("enum") as List<String>;
+    availableValues = List<String>.from(enumMap);
     defaultValue = object.decode("default");
     description = object.decode("description");
   }

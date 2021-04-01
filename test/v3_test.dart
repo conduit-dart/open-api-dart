@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:conduit_open_api/v3.dart';
+import 'package:dcli/dcli.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -16,9 +17,10 @@ void main() {
       expect(orig!.type, APIType.string);
       expect(ref.type, isNull);
 
-      final APISchemaObject constructed = components
-          .resolveUri(Uri(path: "/components/schemas/foo")) as APISchemaObject;
-      expect(constructed.type, APIType.string);
+      final APISchemaObject? constructed = components
+          .resolveUri(Uri(path: "/components/schemas/foo")) as APISchemaObject?;
+      expect(constructed, isNotNull);
+      expect(constructed!.type, APIType.string);
     });
 
     test("Invalid ref uri format throws error", () {
@@ -27,7 +29,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("#/components/schemas/foo"));
         expect(true, false);
-      // ignore: avoid_catching_errors
+        // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -36,7 +38,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("#/components/schemas"));
         expect(true, false);
-      // ignore: avoid_catching_errors
+        // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -45,7 +47,7 @@ void main() {
         components.resolve(APISchemaObject()
           ..referenceURI = Uri.parse("/components/foobar/foo"));
         expect(true, false);
-      // ignore: avoid_catching_errors
+        // ignore: avoid_catching_errors
       } on ArgumentError catch (e) {
         expect(e.message, contains("Invalid reference URI"));
       }
@@ -93,13 +95,14 @@ void main() {
     Map<String, dynamic>? original;
 
     setUpAll(() {
-      // Spec file is too large for pub, and no other way to remove from pub publish
-      // than putting in .gitignore. Therefore, this file must be downloaded locally
-      // to this path, from this path: https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
-      final file = File("test/specs/stripe.json");
+      final String config = fetchStripExample();
+
+      final file = File(config);
       final contents = file.readAsStringSync();
-      original = json.decode(contents) as Map<String, dynamic> ;
-      doc = APIDocument.fromMap(original);
+      original = json.decode(contents) as Map<String, dynamic>;
+      if (original != null) {
+        doc = APIDocument.fromMap(original!);
+      }
     });
 
     test("Emits same document in asMap()", () {
@@ -111,19 +114,20 @@ void main() {
     });
 
     test("Has info", () {
-      expect(doc!.info!.title, "Stripe API");
-      expect(doc!.info!.version, isNotNull);
-      expect(doc!.info!.description,
+      expect(doc!.info.title, "Stripe API");
+      expect(doc!.info.version, isNotNull);
+      expect(doc!.info.description,
           "The Stripe REST API. Please see https://stripe.com/docs/api for more details.");
-      expect(doc!.info!.termsOfServiceURL.toString(),
+      expect(doc!.info.termsOfServiceURL.toString(),
           "https://stripe.com/us/terms/");
-      expect(doc!.info!.contact!.email, "dev-platform@stripe.com");
-      expect(doc!.info!.contact!.name, "Stripe Dev Platform Team");
-      expect(doc!.info!.contact!.url.toString(), "https://stripe.com");
-      expect(doc!.info!.license, isNull);
+      expect(doc!.info.contact!.email, "dev-platform@stripe.com");
+      expect(doc!.info.contact!.name, "Stripe Dev Platform Team");
+      expect(doc!.info.contact!.url.toString(), "https://stripe.com");
+      expect(doc!.info.license, isNull);
     });
 
     test("Has servers", () {
+      expect(doc!.servers, isNotNull);
       expect(doc!.servers!.length, 1);
       expect(doc!.servers!.first!.url.toString(), "https://api.stripe.com/");
       expect(doc!.servers!.first!.description, isNull);
@@ -136,17 +140,18 @@ void main() {
 
     group("Paths", () {
       test("Sample path 1", () {
+        expect(doc!.paths, isNotNull);
         final p = doc!.paths!["/v1/transfers/{transfer}/reversals/{id}"];
         expect(p, isNotNull);
         expect(p!.description, isNull);
 
-        expect(p.operations!.length, 2);
+        expect(p.operations.length, 2);
 
-        final getOp = p.operations!["get"];
+        final getOp = p.operations["get"];
         final getParams = getOp!.parameters;
         final getResponses = getOp.responses;
         expect(getOp.description, contains("10 most recent reversals"));
-        expect(getOp.id, "TransferReversalRetrieve");
+        expect(getOp.id, "GetTransfersTransferReversalsId");
         expect(getParams!.length, 3);
         expect(getParams[0]!.location, APIParameterLocation.query);
         expect(getParams[0]!.description,
@@ -189,7 +194,8 @@ void main() {
     group("Components", () {});
 
     test("Security requirement", () {
-      expect(doc!.security, isNull);
+      expect(doc!.security, isNotNull);
+      expect(doc!.security!.length, 2);
     });
   });
 
@@ -267,7 +273,7 @@ void main() {
     });
 
     test("'addContent'", () {
-      var resp = APIResponse("Response");
+      final resp = APIResponse("Response");
 
       // when null
       resp.addContent("x/a", APISchemaObject.string(format: "initial"));
@@ -347,4 +353,23 @@ void main() {
           2);
     });
   });
+}
+
+String fetchStripExample() {
+  // Spec file is too large for pub, and no other way to remove from pub publish
+  // than putting in .gitignore. Therefore, this file must be downloaded locally
+  // to this path, from this path: https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
+
+  const config = "test/specs/stripe.json";
+  if (!exists(config)) {
+    if (!exists(dirname(config))) {
+      createDir(dirname(config), recursive: true);
+    }
+
+    fetch(
+        url:
+            'https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json',
+        saveToPath: config);
+  }
+  return config;
 }

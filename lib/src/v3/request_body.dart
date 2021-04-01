@@ -10,7 +10,7 @@ class APIRequestBody extends APIObject {
   APIRequestBody.empty();
 
   APIRequestBody.schema(APISchemaObject schema,
-      {Iterable<String> contentTypes: const ["application/json"],
+      {Iterable<String> contentTypes= const ["application/json"],
       this.description,
       this.isRequired = false}) {
     content = contentTypes.fold({}, (prev, elem) {
@@ -40,7 +40,7 @@ class APIRequestBody extends APIObject {
 
     description = object.decode("description");
     isRequired = object.decode("required") ?? false;
-    content = object.decodeObjectMap("content", () => APIMediaType())!;
+    content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
   @override

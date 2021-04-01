@@ -1,3 +1,4 @@
+
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_open_api/src/object.dart';
 import 'package:conduit_open_api/src/v3/header.dart';
@@ -29,12 +30,12 @@ class APIEncoding extends APIObject {
   /// Determines whether the parameter value SHOULD allow reserved characters, as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding.
   ///
   /// The default value is false. This property SHALL be ignored if the request body media type is not application/x-www-form-urlencoded.
-  bool allowReserved;
+  bool? allowReserved;
 
   /// When this is true, property values of type array or object generate separate parameters for each value of the array, or key-value-pair of the map.
   ///
   /// For other types of properties this property has no effect. When style is form, the default value is true. For all other styles, the default value is false. This property SHALL be ignored if the request body media type is not application/x-www-form-urlencoded.
-  bool explode;
+  bool? explode;
 
   /// Describes how a specific property value will be serialized depending on its type.
   ///
@@ -47,8 +48,8 @@ class APIEncoding extends APIObject {
 
     contentType = object.decode("contentType");
     headers = object.decodeObjectMap("headers", () => APIHeader());
-    allowReserved = object.decode("allowReserved") ?? false;
-    explode = object.decode("explode") ?? false;
+    allowReserved = object.decode("allowReserved") ;
+    explode = object.decode("explode") ;
     style = object.decode("style");
   }
 

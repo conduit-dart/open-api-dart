@@ -17,7 +17,7 @@ class APIInfo extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    title = object.decode("title");
+    title = object.decode<String>("title") ?? '';
     description = object.decode("description");
     termsOfServiceURL = object.decode("termsOfService");
     contact = object.decodeObject("contact", () => APIContact());
@@ -46,9 +46,9 @@ class APIContact extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    name = object.decode("name");
-    url = object.decode("url");
-    email = object.decode("email");
+    name = object.decode("name") ?? "default";
+    url = object.decode("url") ?? "http://localhost";
+    email = object.decode("email") ?? "default";
   }
 
   String name = "default";
@@ -73,8 +73,8 @@ class APILicense extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    name = object.decode("name");
-    url = object.decode("url");
+    name = object.decode("name") ?? "default";
+    url = object.decode("url") ?? "http://localhost";
   }
 
   String name = "default";

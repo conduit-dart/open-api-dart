@@ -20,9 +20,7 @@ class APIOperation extends APIObject {
       this.security,
       this.requestBody,
       this.callbacks,
-      bool? deprecated}) {
-    isDeprecated = deprecated;
-  }
+      this.deprecated});
 
   APIOperation.empty();
 
@@ -77,13 +75,7 @@ class APIOperation extends APIObject {
   /// Declares this operation to be deprecated.
   ///
   /// Consumers SHOULD refrain from usage of the declared operation. Default value is false.
-  bool? get isDeprecated => _deprecated;
-
-  set isDeprecated(bool? f) {
-    _deprecated = f;
-  }
-
-  bool? _deprecated;
+  bool? deprecated;
 
   /// Returns the parameter named [name] or null if it doesn't exist.
   APIParameter? parameterNamed(String name) =>
@@ -152,7 +144,7 @@ class APIOperation extends APIObject {
         object.decodeObject("requestBody", () => APIRequestBody.empty());
     responses = object.decodeObjectMap("responses", () => APIResponse.empty());
     callbacks = object.decodeObjectMap("callbacks", () => APICallback());
-    _deprecated = object.decode("deprecated");
+    deprecated = object.decode("deprecated");
     security =
         object.decodeObjects("security", () => APISecurityRequirement.empty());
     servers =
@@ -176,7 +168,7 @@ class APIOperation extends APIObject {
     object.encodeObject("requestBody", requestBody);
     object.encodeObjectMap("responses", responses);
     object.encodeObjectMap("callbacks", callbacks);
-    object.encode("deprecated", _deprecated);
+    object.encode("deprecated", deprecated);
     object.encodeObjects("security", security);
     object.encodeObjects("servers", servers);
   }

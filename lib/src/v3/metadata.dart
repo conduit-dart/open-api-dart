@@ -37,6 +37,8 @@ class APIInfo extends APIObject {
   /// The license information for the exposed API.
   APILicense? license;
 
+  bool get isValid => title != null && version != null;
+
   @override
   void decode(KeyedArchive object) {
     super.decode(object);

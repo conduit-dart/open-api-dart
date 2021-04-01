@@ -85,7 +85,7 @@ class APISecurityScheme extends APIObject {
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    type = object.decode("type");
+    type = object.decode("type") ?? "oauth2";
     description = object.decode("description");
 
     if (type == "basic") {
@@ -93,7 +93,8 @@ class APISecurityScheme extends APIObject {
       oauthFlow = APISecuritySchemeFlowCodec.decode(object.decode("flow"));
       authorizationURL = object.decode("authorizationUrl");
       tokenURL = object.decode("tokenUrl");
-      scopes = Map<String, String>.from(object.decode("scopes"));
+      final scopeMap = object.decode<Map<String, String>>("scopes")!;
+      scopes = Map<String, String>.from(scopeMap);
     } else if (type == "apiKey") {
       apiKeyName = object.decode("name");
       apiKeyLocation = APIParameterLocationCodec.decode(object.decode("in"));
@@ -111,9 +112,9 @@ class APISecurityScheme extends APIObject {
       /* nothing to do */
     } else if (type == "apiKey") {
       object.encode("name", apiKeyName);
-      object.encode("in", APIParameterLocationCodec.encode(apiKeyLocation!));
+      object.encode("in", APIParameterLocationCodec.encode(apiKeyLocation));
     } else if (type == "oauth2") {
-      object.encode("flow", APISecuritySchemeFlowCodec.encode(oauthFlow!));
+      object.encode("flow", APISecuritySchemeFlowCodec.encode(oauthFlow));
 
       object.encode("authorizationUrl", authorizationURL);
       object.encode("tokenUrl", tokenURL);

@@ -14,13 +14,14 @@ class APIOperation extends APIObject {
         "consumes": const cast.List(cast.string),
         "produces": const cast.List(cast.string),
         "schemes": const cast.List(cast.string),
-        "security": const cast.List(cast.Map(cast.string, cast.List(cast.string))),
+        "security":
+            const cast.List(cast.Map(cast.string, cast.List(cast.string))),
       };
 
   String? summary = "";
   String? description = "";
   String? id;
-  bool deprecated = false;
+  bool? deprecated;
 
   List<String?>? tags = [];
   List<String?>? schemes = [];
@@ -40,7 +41,7 @@ class APIOperation extends APIObject {
     id = object.decode("operationId");
     consumes = object.decode("consumes");
     produces = object.decode("produces");
-    deprecated = object.decode("deprecated") ?? false;
+    deprecated = object.decode("deprecated");
     parameters = object.decodeObjects("parameters", () => APIParameter());
     responses = object.decodeObjectMap("responses", () => APIResponse());
     schemes = object.decode("schemes");

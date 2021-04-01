@@ -24,7 +24,7 @@ class APISchemaObject extends APIObject {
   APISchemaObject.integer() : type = APIType.integer;
   APISchemaObject.boolean() : type = APIType.boolean;
   APISchemaObject.map(
-      {APIType? ofType, APISchemaObject? ofSchema, bool any: false})
+      {APIType? ofType, APISchemaObject? ofSchema, bool any = false})
       : type = APIType.object {
     if (ofType != null) {
       additionalPropertySchema = APISchemaObject()..type = ofType;
@@ -48,7 +48,7 @@ class APISchemaObject extends APIObject {
     }
   }
   APISchemaObject.object(this.properties) : type = APIType.object;
-  APISchemaObject.file({bool isBase64Encoded: false})
+  APISchemaObject.file({bool isBase64Encoded = false})
       : type = APIType.string,
         format = isBase64Encoded ? "byte" : "binary";
 
@@ -236,19 +236,14 @@ class APISchemaObject extends APIObject {
     _writeOnly = n;
   }
 
-  bool? get isDeprecated => _deprecated ?? false;
-
-  set isDeprecated(bool? n) {
-    _deprecated = n;
-  }
-
   bool? _nullable;
   bool? _readOnly;
   bool? _writeOnly;
-  bool? _deprecated;
+  bool? deprecated;
 
   @override
-  Map<String, cast.Cast> get castMap => {"required": const cast.List(cast.string)};
+  Map<String, cast.Cast> get castMap =>
+      {"required": const cast.List(cast.string)};
 
   @override
   void decode(KeyedArchive object) {
@@ -304,7 +299,7 @@ class APISchemaObject extends APIObject {
     _nullable = object.decode("nullable");
     _readOnly = object.decode("readOnly");
     _writeOnly = object.decode("writeOnly");
-    _deprecated = object.decode("deprecated");
+    deprecated = object.decode("deprecated");
   }
 
   @override
@@ -357,6 +352,6 @@ class APISchemaObject extends APIObject {
     object.encode("nullable", _nullable);
     object.encode("readOnly", _readOnly);
     object.encode("writeOnly", _writeOnly);
-    object.encode("deprecated", _deprecated);
+    object.encode("deprecated", deprecated);
   }
 }

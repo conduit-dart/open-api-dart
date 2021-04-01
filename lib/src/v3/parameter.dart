@@ -1,3 +1,4 @@
+
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_open_api/src/object.dart';
 import 'package:conduit_open_api/src/v3/document.dart';
@@ -71,14 +72,12 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool isRequired = false,
-      bool deprecated = false,
-      this.allowEmptyValue = false,
-      this.explode = false,
-      this.allowReserved = false}) {
-    this.isRequired = isRequired;
-    isDeprecated = deprecated;
-  }
+      bool? isRequired,
+      this.deprecated,
+      this.allowEmptyValue,
+      this.explode,
+      this.allowReserved})
+      : _required = isRequired;
 
   APIParameter.empty();
 
@@ -87,17 +86,12 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool isRequired = false,
-      bool deprecated = false,
-      this.allowEmptyValue = false,
-      this.explode = false,
-      this.allowReserved = false})
+      bool? isRequired,
+      this.deprecated,
+      this.allowEmptyValue,
+      this.explode,
+      this.allowReserved})
       : _required = isRequired {
-    this.isRequired = isRequired;
-    isDeprecated = deprecated;
-    this.allowEmptyValue = allowEmptyValue;
-    this.allowReserved = allowReserved;
-    this.explode = explode;
     location = APIParameterLocation.header;
   }
 
@@ -106,13 +100,12 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool isRequired = false,
-      bool deprecated = false,
-      this.allowEmptyValue = false,
-      this.explode = false,
-      this.allowReserved = false}) {
-    this.isRequired = isRequired;
-    isDeprecated = deprecated;
+      bool? isRequired,
+      this.deprecated,
+      this.allowEmptyValue,
+      this.explode,
+      this.allowReserved})
+      : _required = isRequired {
     location = APIParameterLocation.query;
   }
 
@@ -126,13 +119,12 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool isRequired = false,
-      bool deprecated = false,
-      this.allowEmptyValue = false,
-      this.explode = false,
-      this.allowReserved = false}) {
-    this.isRequired = isRequired;
-    isDeprecated = deprecated;
+      bool? isRequired,
+      this.deprecated,
+      this.allowEmptyValue,
+      this.explode,
+      this.allowReserved})
+      : _required = isRequired {
     location = APIParameterLocation.cookie;
   }
 
@@ -152,19 +144,19 @@ class APIParameter extends APIObject {
   /// Determines whether this parameter is mandatory.
   ///
   /// If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.
-  bool get isRequired =>
+  bool? get isRequired =>
       // ignore: avoid_bool_literals_in_conditional_expressions
       location == APIParameterLocation.path ? true : _required;
 
-  set isRequired(bool f) {
+  set isRequired(bool? f) {
     _required = f;
   }
 
-  late bool _required;
+  bool? _required;
 
   /// Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.
 
-  bool isDeprecated = false;
+  bool? deprecated;
 
   /// The location of the parameter.
   ///
@@ -177,7 +169,7 @@ class APIParameter extends APIObject {
   // Sets the ability to pass empty-valued parameters.
   //
   // This is valid only for query parameters and allows sending a parameter with an empty value. Default value is false. If style is used, and if behavior is n/a (cannot be serialized), the value of allowEmptyValue SHALL be ignored.
-  bool allowEmptyValue = false;
+  bool? allowEmptyValue = false;
 
   /// Describes how the parameter value will be serialized depending on the type of the parameter value.
   ///
@@ -187,12 +179,12 @@ class APIParameter extends APIObject {
   /// When this is true, parameter values of type array or object generate separate parameters for each value of the array or key-value pair of the map.
   ///
   /// For other types of parameters this property has no effect. When style is form, the default value is true. For all other styles, the default value is false.
-  bool explode = false;
+  bool? explode = false;
 
   /// Determines whether the parameter value SHOULD allow reserved characters, as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding.
   ///
   /// This property only applies to parameters with an in value of query. The default value is false.
-  bool allowReserved = false;
+  bool? allowReserved = false;
 
   /// A map containing the representations for the parameter.
   ///
@@ -208,16 +200,16 @@ class APIParameter extends APIObject {
 
     name = object.decode("name");
     description = object.decode("description");
-    location = APIParameterLocationCodec.decode(object.decode("in"))!;
-    _required = object.decode("required") ?? false;
+    location = APIParameterLocationCodec.decode(object.decode("in"));
+    _required = object.decode("required") ;
 
-    isDeprecated = object.decode("deprecated") ?? false;
-    allowEmptyValue = object.decode("allowEmptyValue") ?? false;
+    deprecated = object.decode("deprecated");
+    allowEmptyValue = object.decode("allowEmptyValue");
 
     schema = object.decodeObject("schema", () => APISchemaObject());
     style = object.decode("style");
-    explode = object.decode("explode") ?? false;
-    allowReserved = object.decode("allowReserved") ?? false;
+    explode = object.decode("explode") ;
+    allowReserved = object.decode("allowReserved");
     content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
@@ -232,7 +224,7 @@ class APIParameter extends APIObject {
 
     object.encode("name", name);
     object.encode("description", description);
-    object.encode("in", APIParameterLocationCodec.encode(location!));
+    object.encode("in", APIParameterLocationCodec.encode(location));
 
     if (location == APIParameterLocation.path) {
       object.encode("required", true);
@@ -240,7 +232,7 @@ class APIParameter extends APIObject {
       object.encode("required", _required);
     }
 
-    object.encode("deprecated", isDeprecated);
+    object.encode("deprecated", deprecated);
 
     if (location == APIParameterLocation.query) {
       object.encode("allowEmptyValue", allowEmptyValue);

@@ -84,14 +84,16 @@ class APIParameter extends APIProperty {
   void encode(KeyedArchive json) {
     json.encode("name", name);
     json.encode("description", description);
-    json.encode("in", APIParameterLocationCodec.encode(location!));
+    json.encode("in", APIParameterLocationCodec.encode(location));
     json.encode("required", isRequired);
 
     if (location == APIParameterLocation.body) {
       json.encodeObject("schema", schema);
     } else {
       super.encode(json);
-      json.encode("allowEmptyValue", allowEmptyValue);
+      if (allowEmptyValue) {
+        json.encode("allowEmptyValue", allowEmptyValue);
+      }
       if (type == APIType.array) {
         json.encodeObject("items", items);
       }
