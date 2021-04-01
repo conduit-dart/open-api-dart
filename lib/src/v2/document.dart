@@ -1,6 +1,7 @@
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_codable/cast.dart' as cast;
 import 'package:conduit_open_api/src/object.dart';
+import 'package:conduit_open_api/src/util/list_helper.dart';
 import 'package:conduit_open_api/src/v2/metadata.dart';
 import 'package:conduit_open_api/src/v2/parameter.dart';
 import 'package:conduit_open_api/src/v2/path.dart';
@@ -55,11 +56,11 @@ class APIDocument extends APIObject {
     version = object["swagger"] as String;
     host = object["host"] as String? ?? 'not set';
     basePath = object["basePath"] as String? ?? 'not set';
-    schemes = removeNulls(object["schemes"] as List<String?>?);
+    schemes = removeNullsFromList(object["schemes"] as List<String?>?);
 
     /// remove
-    consumes = removeNulls(object["consumes"] as List<String?>?);
-    produces = removeNulls(object["produces"] as List<String?>?);
+    consumes = removeNullsFromList(object["consumes"] as List<String?>?);
+    produces = removeNullsFromList(object["produces"] as List<String?>?);
     security = object["security"] as List<Map<String, List<String>>>?;
 
     info = object.decodeObject("info", () => APIInfo());
@@ -73,15 +74,6 @@ class APIDocument extends APIObject {
         "securityDefinitions", () => APISecurityScheme());
   }
 
-  /// Remove any null entries from the list and convert the type.
-  /// In reality I don't think the list can have nulls but we still
-  /// need the conversion.
-  List<String>? removeNulls(List<String?>? list) {
-    if (list == null) return null;
-
-    // remove nulls and convert to List<String>
-    return List.from(list.where((c) => c != null));
-  }
 
   @override
   void encode(KeyedArchive object) {

@@ -9,7 +9,7 @@ void main() {
   group("Components and resolution", () {
     test("Can resolve object against registry", () {
       final components = APIComponents();
-      components.schemas!["foo"] = APISchemaObject.string();
+      components.schemas["foo"] = APISchemaObject.string();
 
       final ref = APISchemaObject()
         ..referenceURI = Uri.parse("/components/schemas/foo");
@@ -76,10 +76,10 @@ void main() {
         }
       });
 
-      expect(doc.components!.schemas!["container"]!.referenceURI!.path,
+      expect(doc.components!.schemas["container"]!.referenceURI!.path,
           "/components/schemas/string");
 
-      doc.components!.schemas!["other"] = APISchemaObject()
+      doc.components!.schemas["other"] = APISchemaObject()
         ..referenceURI = Uri(path: "/components/schemas/container");
 
       final out = doc.asMap();
@@ -212,7 +212,7 @@ void main() {
         }
       });
 
-      expect(doc.components!.schemas!["freeform"]!.additionalPropertyPolicy,
+      expect(doc.components!.schemas["freeform"]!.additionalPropertyPolicy,
           APISchemaAdditionalPropertyPolicy.freeForm);
 
       expect(
@@ -237,7 +237,7 @@ void main() {
           }
         }
       });
-      expect(doc.components!.schemas!["freeform"]!.additionalPropertyPolicy,
+      expect(doc.components!.schemas["freeform"]!.additionalPropertyPolicy,
           APISchemaAdditionalPropertyPolicy.freeForm);
       expect(
           doc.asMap()["components"]["schemas"]["freeform"]["type"], "object");
