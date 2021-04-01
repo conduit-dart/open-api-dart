@@ -14,28 +14,28 @@ class APIInfo extends APIObject {
   /// The title of the application.
   ///
   /// REQUIRED.
-  String title;
+  String? title;
 
   /// A short description of the application.
   ///
   /// CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   /// The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
   ///
   /// REQUIRED.
-  String version;
+  String? version;
 
   /// A URL to the Terms of Service for the API.
   ///
   /// MUST be in the format of a URL.
-  Uri termsOfServiceURL;
+  Uri? termsOfServiceURL;
 
   /// The contact information for the exposed API.
-  APIContact contact;
+  APIContact? contact;
 
   /// The license information for the exposed API.
-  APILicense license;
+  APILicense? license;
 
   @override
   void decode(KeyedArchive object) {
@@ -73,17 +73,17 @@ class APIContact extends APIObject {
   APIContact.empty();
 
   /// The identifying name of the contact person/organization.
-  String name;
+  String? name;
 
   /// The URL pointing to the contact information.
   ///
   /// MUST be in the format of a URL.
-  Uri url;
+  Uri? url;
 
   /// The email address of the contact person/organization.
   ///
   /// MUST be in the format of an email address.
-  String email;
+  String? email;
 
   @override
   void decode(KeyedArchive object) {
@@ -112,12 +112,12 @@ class APILicense extends APIObject {
   /// The license name used for the API.
   ///
   /// REQUIRED.
-  String name;
+  String? name;
 
   /// A URL to the license used for the API.
   ///
   /// MUST be in the format of a URL.
-  Uri url;
+  Uri? url;
 
   @override
   void decode(KeyedArchive object) {
@@ -151,12 +151,12 @@ class APITag extends APIObject {
   /// The name of the tag.
   ///
   /// REQUIRED.
-  String name;
+  String? name;
 
   /// A short description for the tag.
   ///
   /// CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   @override
   void decode(KeyedArchive object) {

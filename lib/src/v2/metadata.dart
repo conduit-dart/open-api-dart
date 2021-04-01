@@ -7,11 +7,11 @@ class APIInfo extends APIObject {
   APIInfo();
 
   String title = "API";
-  String description = "Description";
-  String version = "1.0";
-  String termsOfServiceURL = "";
-  APIContact contact = APIContact();
-  APILicense license = APILicense();
+  String? description = "Description";
+  String? version = "1.0";
+  String? termsOfServiceURL = "";
+  APIContact? contact = APIContact();
+  APILicense? license = APILicense();
 
   @override
   void decode(KeyedArchive object) {
@@ -100,8 +100,8 @@ class APITag extends APIObject {
     description = object.decode("description");
   }
 
-  String name;
-  String description;
+  String? name;
+  String? description;
 
   @override
   void encode(KeyedArchive object) {

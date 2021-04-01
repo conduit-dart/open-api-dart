@@ -24,7 +24,7 @@ class APISchemaObject extends APIObject {
   APISchemaObject.integer() : type = APIType.integer;
   APISchemaObject.boolean() : type = APIType.boolean;
   APISchemaObject.map(
-      {APIType ofType, APISchemaObject ofSchema, bool any = false})
+      {APIType? ofType, APISchemaObject? ofSchema, bool any: false})
       : type = APIType.object {
     if (ofType != null) {
       additionalPropertySchema = APISchemaObject()..type = ofType;
@@ -36,7 +36,7 @@ class APISchemaObject extends APIObject {
           "Invalid 'APISchemaObject.map' with neither 'ofType', 'any' or 'ofSchema' specified.");
     }
   }
-  APISchemaObject.array({APIType ofType, APISchemaObject ofSchema})
+  APISchemaObject.array({APIType? ofType, APISchemaObject? ofSchema})
       : type = APIType.array {
     if (ofType != null) {
       items = APISchemaObject()..type = ofType;
@@ -48,7 +48,7 @@ class APISchemaObject extends APIObject {
     }
   }
   APISchemaObject.object(this.properties) : type = APIType.object;
-  APISchemaObject.file({bool isBase64Encoded = false})
+  APISchemaObject.file({bool isBase64Encoded: false})
       : type = APIType.string,
         format = isBase64Encoded ? "byte" : "binary";
 
@@ -57,7 +57,7 @@ class APISchemaObject extends APIObject {
         additionalPropertyPolicy = APISchemaAdditionalPropertyPolicy.freeForm;
 
   /// A title for the object.
-  String title;
+  String? title;
 
   /// The value of "maximum" MUST be a number, representing an upper limit
   /// for a numeric instance.
@@ -66,7 +66,7 @@ class APISchemaObject extends APIObject {
   /// "exclusiveMaximum" is true and instance is less than the provided
   /// value, or else if the instance is less than or exactly equal to the
   /// provided value.
-  num maximum;
+  num? maximum;
 
   ///  The value of "exclusiveMaximum" MUST be a boolean, representing
   ///  whether the limit in "maximum" is exclusive or not.
@@ -77,7 +77,7 @@ class APISchemaObject extends APIObject {
   ///  equal to the value specified in "maximum".  If "exclusiveMaximum" is
   ///  false (or not specified), then a numeric instance MAY be equal to the
   ///  value of "maximum".
-  bool exclusiveMaximum;
+  bool? exclusiveMaximum;
 
   /// The value of "minimum" MUST be a number, representing a lower limit
   /// for a numeric instance.
@@ -86,7 +86,7 @@ class APISchemaObject extends APIObject {
   /// "exclusiveMinimum" is true and instance is greater than the provided
   /// value, or else if the instance is greater than or exactly equal to
   /// the provided value.
-  num minimum;
+  num? minimum;
 
   /// The value of "exclusiveMinimum" MUST be a boolean, representing
   /// whether the limit in "minimum" is exclusive or not.  An undefined
@@ -96,7 +96,7 @@ class APISchemaObject extends APIObject {
   /// equal to the value specified in "minimum".  If "exclusiveMinimum" is
   /// false (or not specified), then a numeric instance MAY be equal to the
   /// value of "minimum".
-  bool exclusiveMinimum;
+  bool? exclusiveMinimum;
 
   /// The value of this keyword MUST be a non-negative integer.
   ///
@@ -108,7 +108,7 @@ class APISchemaObject extends APIObject {
   ///
   /// The length of a string instance is defined as the number of its
   /// characters as defined by RFC 7159 [RFC7159].
-  int maxLength;
+  int? maxLength;
 
   /// A string instance is valid against this keyword if its length is
   /// greater than, or equal to, the value of this keyword.
@@ -121,7 +121,7 @@ class APISchemaObject extends APIObject {
   ///
   /// "minLength", if absent, may be considered as being present with
   /// integer value 0.
-  int minLength;
+  int? minLength;
 
   /// The value of this keyword MUST be a string.  This string SHOULD be a
   /// valid regular expression, according to the ECMA 262 regular
@@ -130,14 +130,14 @@ class APISchemaObject extends APIObject {
   /// A string instance is considered valid if the regular expression
   /// matches the instance successfully.  Recall: regular expressions are
   /// not implicitly anchored.
-  String pattern;
+  String? pattern;
 
   /// The value of this keyword MUST be an integer.  This integer MUST be
   /// greater than, or equal to, 0.
   ///
   /// An array instance is valid against "maxItems" if its size is less
   /// than, or equal to, the value of this keyword.
-  int maxItems;
+  int? maxItems;
 
   /// The value of this keyword MUST be an integer.  This integer MUST be
   /// greater than, or equal to, 0.
@@ -147,7 +147,7 @@ class APISchemaObject extends APIObject {
   ///
   /// If this keyword is not present, it may be considered present with a
   /// value of 0.
-  int minItems;
+  int? minItems;
 
   /// The value of this keyword MUST be a boolean.
   ///
@@ -157,20 +157,20 @@ class APISchemaObject extends APIObject {
 
   /// If not present, this keyword may be considered present with boolean
   /// value false.
-  bool uniqueItems;
+  bool? uniqueItems;
 
   /// The value of "multipleOf" MUST be a number, strictly greater than 0.
 
   /// A numeric instance is only valid if division by this keyword's value
   /// results in an integer.
-  num multipleOf;
+  num? multipleOf;
 
   /// The value of this keyword MUST be an integer.  This integer MUST be
   /// greater than, or equal to, 0.
   ///
   /// An object instance is valid against "maxProperties" if its number of
   /// properties is less than, or equal to, the value of this keyword.
-  int maxProperties;
+  int? maxProperties;
 
   /// The value of this keyword MUST be an integer.  This integer MUST be
   /// greater than, or equal to, 0.
@@ -180,7 +180,7 @@ class APISchemaObject extends APIObject {
   ///
   /// If this keyword is not present, it may be considered present with a
   /// value of 0.
-  int minProperties;
+  int? minProperties;
 
   /// The value of this keyword MUST be an array.  This array MUST have at
   /// least one element.  Elements of this array MUST be strings, and MUST
@@ -188,7 +188,7 @@ class APISchemaObject extends APIObject {
   ///
   /// An object instance is valid against this keyword if its property set
   /// contains all elements in this keyword's array value.
-  List<String> required;
+  List<String?>? isRequired;
 
   /// The value of this keyword MUST be an array.  This array SHOULD have
   /// at least one element.  Elements in the array SHOULD be unique.
@@ -197,55 +197,55 @@ class APISchemaObject extends APIObject {
   ///
   /// An instance validates successfully against this keyword if its value
   /// is equal to one of the elements in this keyword's array value.
-  List<dynamic> enumerated;
+  List<dynamic>? enumerated;
 
   /* Modified JSON Schema for OpenAPI */
 
-  APIType type;
-  List<APISchemaObject> allOf;
-  List<APISchemaObject> anyOf;
-  List<APISchemaObject> oneOf;
-  APISchemaObject not;
+  APIType? type;
+  List<APISchemaObject?>? allOf;
+  List<APISchemaObject?>? anyOf;
+  List<APISchemaObject?>? oneOf;
+  APISchemaObject? not;
 
-  APISchemaObject items;
-  Map<String, APISchemaObject> properties;
-  APISchemaObject additionalPropertySchema;
-  APISchemaAdditionalPropertyPolicy additionalPropertyPolicy;
+  APISchemaObject? items;
+  Map<String, APISchemaObject?>? properties;
+  APISchemaObject? additionalPropertySchema;
+  APISchemaAdditionalPropertyPolicy? additionalPropertyPolicy;
 
-  String description;
-  String format;
+  String? description;
+  String? format;
   dynamic defaultValue;
 
-  bool get isNullable => _nullable ?? false;
+  bool? get isNullable => _nullable ?? false;
 
-  set isNullable(bool n) {
+  set isNullable(bool? n) {
     _nullable = n;
   }
 
   // APIDiscriminator discriminator;
 
-  bool get isReadOnly => _readOnly ?? false;
+  bool? get isReadOnly => _readOnly ?? false;
 
-  set isReadOnly(bool n) {
+  set isReadOnly(bool? n) {
     _readOnly = n;
   }
 
-  bool get isWriteOnly => _writeOnly ?? false;
+  bool? get isWriteOnly => _writeOnly ?? false;
 
-  set isWriteOnly(bool n) {
+  set isWriteOnly(bool? n) {
     _writeOnly = n;
   }
 
-  bool get isDeprecated => _deprecated ?? false;
+  bool? get isDeprecated => _deprecated ?? false;
 
-  set isDeprecated(bool n) {
+  set isDeprecated(bool? n) {
     _deprecated = n;
   }
 
-  bool _nullable;
-  bool _readOnly;
-  bool _writeOnly;
-  bool _deprecated;
+  bool? _nullable;
+  bool? _readOnly;
+  bool? _writeOnly;
+  bool? _deprecated;
 
   @override
   Map<String, cast.Cast> get castMap => {"required": const cast.List(cast.string)};
@@ -269,7 +269,7 @@ class APISchemaObject extends APIObject {
     enumerated = object.decode("enum");
     minProperties = object.decode("minProperties");
     maxProperties = object.decode("maxProperties");
-    required = object.decode("required");
+    isRequired = object.decode("required");
 
     //
 
@@ -326,7 +326,7 @@ class APISchemaObject extends APIObject {
     object.encode("enum", enumerated);
     object.encode("minProperties", minProperties);
     object.encode("maxProperties", maxProperties);
-    object.encode("required", required);
+    object.encode("required", isRequired);
 
     //
 

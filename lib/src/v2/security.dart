@@ -12,7 +12,7 @@ enum APISecuritySchemeFlow {
 }
 
 class APISecuritySchemeFlowCodec {
-  static APISecuritySchemeFlow decode(String flow) {
+  static APISecuritySchemeFlow? decode(String? flow) {
     switch (flow) {
       case "accessCode":
         return APISecuritySchemeFlow.authorizationCode;
@@ -22,11 +22,12 @@ class APISecuritySchemeFlowCodec {
         return APISecuritySchemeFlow.implicit;
       case "application":
         return APISecuritySchemeFlow.application;
+      default:
+        return null;
     }
-    return null;
   }
 
-  static String encode(APISecuritySchemeFlow flow) {
+  static String? encode(APISecuritySchemeFlow? flow) {
     switch (flow) {
       case APISecuritySchemeFlow.authorizationCode:
         return "accessCode";
@@ -36,8 +37,9 @@ class APISecuritySchemeFlowCodec {
         return "implicit";
       case APISecuritySchemeFlow.application:
         return "application";
+      default:
+        return null;
     }
-    return null;
   }
 }
 
@@ -58,18 +60,18 @@ class APISecurityScheme extends APIObject {
     type = "oauth2";
   }
 
-  String type;
-  String description;
+  late String type;
+  String? description;
 
   // API Key
-  String apiKeyName;
-  APIParameterLocation apiKeyLocation;
+  String? apiKeyName;
+  APIParameterLocation? apiKeyLocation;
 
   // Oauth2
-  APISecuritySchemeFlow oauthFlow;
-  String authorizationURL;
-  String tokenURL;
-  Map<String, String> scopes;
+  APISecuritySchemeFlow? oauthFlow;
+  String? authorizationURL;
+  String? tokenURL;
+  Map<String, String>? scopes;
 
   bool get isOAuth2 {
     return type == "oauth2";
@@ -109,9 +111,9 @@ class APISecurityScheme extends APIObject {
       /* nothing to do */
     } else if (type == "apiKey") {
       object.encode("name", apiKeyName);
-      object.encode("in", APIParameterLocationCodec.encode(apiKeyLocation));
+      object.encode("in", APIParameterLocationCodec.encode(apiKeyLocation!));
     } else if (type == "oauth2") {
-      object.encode("flow", APISecuritySchemeFlowCodec.encode(oauthFlow));
+      object.encode("flow", APISecuritySchemeFlowCodec.encode(oauthFlow!));
 
       object.encode("authorizationUrl", authorizationURL);
       object.encode("tokenUrl", tokenURL);

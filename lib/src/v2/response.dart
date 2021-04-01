@@ -7,9 +7,9 @@ import 'package:conduit_open_api/src/v2/schema.dart';
 class APIResponse extends APIObject {
   APIResponse();
 
-  String description = "";
-  APISchemaObject schema;
-  Map<String, APIHeader> headers = {};
+  String? description = "";
+  APISchemaObject? schema;
+  Map<String, APIHeader?>? headers = {};
 
   @override
   void decode(KeyedArchive object) {

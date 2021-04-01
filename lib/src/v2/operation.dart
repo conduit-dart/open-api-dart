@@ -17,18 +17,18 @@ class APIOperation extends APIObject {
         "security": const cast.List(cast.Map(cast.string, cast.List(cast.string))),
       };
 
-  String summary = "";
-  String description = "";
-  String id;
+  String? summary = "";
+  String? description = "";
+  String? id;
   bool deprecated = false;
 
-  List<String> tags = [];
-  List<String> schemes = [];
-  List<String> consumes = [];
-  List<String> produces = [];
-  List<APIParameter> parameters = [];
-  List<Map<String, List<String>>> security = [];
-  Map<String, APIResponse> responses = {};
+  List<String?>? tags = [];
+  List<String?>? schemes = [];
+  List<String?>? consumes = [];
+  List<String?>? produces = [];
+  List<APIParameter?>? parameters = [];
+  List<Map<String, List<String>>?>? security = [];
+  Map<String, APIResponse?>? responses = {};
 
   @override
   void decode(KeyedArchive object) {

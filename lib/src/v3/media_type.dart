@@ -9,12 +9,12 @@ class APIMediaType extends APIObject {
   APIMediaType.empty();
 
   /// The schema defining the type used for the request body.
-  APISchemaObject schema;
+  APISchemaObject? schema;
 
   /// A map between a property name and its encoding information.
   ///
   /// The key, being the property name, MUST exist in the schema as a property. The encoding object SHALL only apply to requestBody objects when the media type is multipart or application/x-www-form-urlencoded.
-  Map<String, APIEncoding> encoding;
+  Map<String, APIEncoding?>? encoding;
 
   @override
   void decode(KeyedArchive object) {

@@ -7,8 +7,8 @@ import 'package:conduit_open_api/src/v2/parameter.dart';
 class APIPath extends APIObject {
   APIPath();
 
-  List<APIParameter> parameters = [];
-  Map<String, APIOperation> operations = {};
+  List<APIParameter?> parameters = [];
+  Map<String, APIOperation?> operations = {};
 
   @override
   void decode(KeyedArchive object) {
@@ -18,7 +18,7 @@ class APIPath extends APIObject {
       if (k == r"$ref") {
         // todo: reference
       } else if (k == "parameters") {
-        parameters = object.decodeObjects(k, () => APIParameter());
+        parameters = object.decodeObjects(k, () => APIParameter())!;
       } else {
         operations[k] = object.decodeObject(k, () => APIOperation());
       }

@@ -31,7 +31,7 @@ enum APIParameterLocation {
 }
 
 class APIParameterLocationCodec {
-  static APIParameterLocation decode(String location) {
+  static APIParameterLocation? decode(String? location) {
     switch (location) {
       case "query":
         return APIParameterLocation.query;
@@ -41,12 +41,12 @@ class APIParameterLocationCodec {
         return APIParameterLocation.path;
       case "cookie":
         return APIParameterLocation.cookie;
+      default:
+        return null;
     }
-
-    return null;
   }
 
-  static String encode(APIParameterLocation location) {
+  static String? encode(APIParameterLocation? location) {
     switch (location) {
       case APIParameterLocation.query:
         return "query";
@@ -56,8 +56,9 @@ class APIParameterLocationCodec {
         return "path";
       case APIParameterLocation.cookie:
         return "cookie";
+      default:
+        return null;
     }
-    return null;
   }
 }
 
@@ -70,16 +71,13 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool required,
-      bool deprecated,
-      bool allowEmptyValue,
-      bool explode,
-      bool allowReserved}) {
-    isRequired = required;
+      bool isRequired = false,
+      bool deprecated = false,
+      this.allowEmptyValue = false,
+      this.explode = false,
+      this.allowReserved = false}) {
+    this.isRequired = isRequired;
     isDeprecated = deprecated;
-    this.allowEmptyValue = allowEmptyValue;
-    this.allowReserved = allowReserved;
-    this.explode = explode;
   }
 
   APIParameter.empty();
@@ -89,12 +87,13 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool required,
-      bool deprecated,
-      bool allowEmptyValue,
-      bool explode,
-      bool allowReserved}) {
-    isRequired = required;
+      bool isRequired = false,
+      bool deprecated = false,
+      this.allowEmptyValue = false,
+      this.explode = false,
+      this.allowReserved = false})
+      : _required = isRequired {
+    this.isRequired = isRequired;
     isDeprecated = deprecated;
     this.allowEmptyValue = allowEmptyValue;
     this.allowReserved = allowReserved;
@@ -107,16 +106,13 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool required,
-      bool deprecated,
-      bool allowEmptyValue,
-      bool explode,
-      bool allowReserved}) {
-    isRequired = required;
+      bool isRequired = false,
+      bool deprecated = false,
+      this.allowEmptyValue = false,
+      this.explode = false,
+      this.allowReserved = false}) {
+    this.isRequired = isRequired;
     isDeprecated = deprecated;
-    this.allowEmptyValue = allowEmptyValue;
-    this.allowReserved = allowReserved;
-    this.explode = explode;
     location = APIParameterLocation.query;
   }
 
@@ -130,16 +126,13 @@ class APIParameter extends APIObject {
       this.schema,
       this.content,
       this.style,
-      bool required,
-      bool deprecated,
-      bool allowEmptyValue,
-      bool explode,
-      bool allowReserved}) {
-    isRequired = required;
+      bool isRequired = false,
+      bool deprecated = false,
+      this.allowEmptyValue = false,
+      this.explode = false,
+      this.allowReserved = false}) {
+    this.isRequired = isRequired;
     isDeprecated = deprecated;
-    this.allowEmptyValue = allowEmptyValue;
-    this.allowReserved = allowReserved;
-    this.explode = explode;
     location = APIParameterLocation.cookie;
   }
 
@@ -149,85 +142,62 @@ class APIParameter extends APIObject {
   /// If in is "path", the name field MUST correspond to the associated path segment from the path field in [APIDocument.paths]. See Path Templating for further information.
   /// If in is "header" and the name field is "Accept", "Content-Type" or "Authorization", the parameter definition SHALL be ignored.
   /// For all other cases, the name corresponds to the parameter name used by the in property.
-  String name;
+  String? name;
 
   /// A brief description of the parameter.
   ///
   /// This could contain examples of use. CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   /// Determines whether this parameter is mandatory.
   ///
   /// If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.
   bool get isRequired =>
       // ignore: avoid_bool_literals_in_conditional_expressions
-      location == APIParameterLocation.path ? true : (_required ?? false);
+      location == APIParameterLocation.path ? true : _required;
 
   set isRequired(bool f) {
     _required = f;
   }
 
-  bool _required;
+  late bool _required;
 
   /// Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.
-  bool get isDeprecated => _deprecated ?? false;
 
-  set isDeprecated(bool f) {
-    _deprecated = f;
-  }
-
-  bool _deprecated;
+  bool isDeprecated = false;
 
   /// The location of the parameter.
   ///
   /// REQUIRED. Possible values are "query", "header", "path" or "cookie".
-  APIParameterLocation location;
+  APIParameterLocation? location;
 
   /// The schema defining the type used for the parameter.
-  APISchemaObject schema;
+  APISchemaObject? schema;
 
   // Sets the ability to pass empty-valued parameters.
   //
   // This is valid only for query parameters and allows sending a parameter with an empty value. Default value is false. If style is used, and if behavior is n/a (cannot be serialized), the value of allowEmptyValue SHALL be ignored.
-  bool get allowEmptyValue => _allowEmptyValue ?? false;
-
-  set allowEmptyValue(bool f) {
-    _allowEmptyValue = f;
-  }
-
-  bool _allowEmptyValue;
+  bool allowEmptyValue = false;
 
   /// Describes how the parameter value will be serialized depending on the type of the parameter value.
   ///
   /// Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.
-  String style;
+  String? style;
 
   /// When this is true, parameter values of type array or object generate separate parameters for each value of the array or key-value pair of the map.
   ///
   /// For other types of parameters this property has no effect. When style is form, the default value is true. For all other styles, the default value is false.
-  bool get explode => _explode ?? false;
-
-  set explode(bool f) {
-    _explode = f;
-  }
-
-  bool _explode;
+  bool explode = false;
 
   /// Determines whether the parameter value SHOULD allow reserved characters, as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding.
   ///
   /// This property only applies to parameters with an in value of query. The default value is false.
-  bool get allowReserved => _allowReserved ?? false;
-
-  set allowReserved(bool f) {
-    _allowReserved = f;
-  }
-
-  bool _allowReserved;
+  bool allowReserved = false;
 
   /// A map containing the representations for the parameter.
   ///
   /// The key is the media type and the value describes it. The map MUST only contain one entry.
-  Map<String, APIMediaType> content;
+  Map<String, APIMediaType?>? content;
 
   // Currently missing:
   // example, examples
@@ -238,16 +208,16 @@ class APIParameter extends APIObject {
 
     name = object.decode("name");
     description = object.decode("description");
-    location = APIParameterLocationCodec.decode(object.decode("in"));
-    _required = object.decode("required");
+    location = APIParameterLocationCodec.decode(object.decode("in"))!;
+    _required = object.decode("required") ?? false;
 
-    _deprecated = object.decode("deprecated");
-    _allowEmptyValue = object.decode("allowEmptyValue");
+    isDeprecated = object.decode("deprecated") ?? false;
+    allowEmptyValue = object.decode("allowEmptyValue") ?? false;
 
     schema = object.decodeObject("schema", () => APISchemaObject());
     style = object.decode("style");
-    _explode = object.decode("explode");
-    _allowReserved = object.decode("allowReserved");
+    explode = object.decode("explode") ?? false;
+    allowReserved = object.decode("allowReserved") ?? false;
     content = object.decodeObjectMap("content", () => APIMediaType());
   }
 
@@ -262,7 +232,7 @@ class APIParameter extends APIObject {
 
     object.encode("name", name);
     object.encode("description", description);
-    object.encode("in", APIParameterLocationCodec.encode(location));
+    object.encode("in", APIParameterLocationCodec.encode(location!));
 
     if (location == APIParameterLocation.path) {
       object.encode("required", true);
@@ -270,16 +240,16 @@ class APIParameter extends APIObject {
       object.encode("required", _required);
     }
 
-    object.encode("deprecated", _deprecated);
+    object.encode("deprecated", isDeprecated);
 
     if (location == APIParameterLocation.query) {
-      object.encode("allowEmptyValue", _allowEmptyValue);
+      object.encode("allowEmptyValue", allowEmptyValue);
     }
 
     object.encodeObject("schema", schema);
     object.encode("style", style);
-    object.encode("explode", _explode);
-    object.encode("allowReserved", _allowReserved);
+    object.encode("explode", explode);
+    object.encode("allowReserved", allowReserved);
     object.encodeObjectMap("content", content);
   }
 }

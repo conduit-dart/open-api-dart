@@ -10,23 +10,25 @@ class APIServerDescription extends APIObject {
   /// A URL to the target host.
   ///
   /// REQUIRED. This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the OpenAPI document is being served. Variable substitutions will be made when a variable is named in {brackets}.
-  Uri url;
+  Uri? url;
 
   /// An optional string describing the host designated by the URL.
   ///
   /// CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   /// A map between a variable name and its value.
   ///
   /// The value is used for substitution in the server's URL template.
-  Map<String, APIServerVariable> variables;
+  Map<String, APIServerVariable?>? variables;
 
   @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    url = object.decode("url");
+    url = object.decode("url") != null
+        ? Uri.tryParse(object.decode("url"))
+        : null;
     description = object.decode("description");
     variables =
         object.decodeObjectMap("variables", () => APIServerVariable.empty());
@@ -55,17 +57,17 @@ class APIServerVariable extends APIObject {
   APIServerVariable.empty();
 
   /// An enumeration of string values to be used if the substitution options are from a limited set.
-  List<String> availableValues;
+  List<String>? availableValues;
 
   /// The default value to use for substitution, and to send, if an alternate value is not supplied.
   ///
   /// REQUIRED. Unlike the Schema Object's default, this value MUST be provided by the consumer.
-  String defaultValue;
+  String? defaultValue;
 
   /// An optional description for the server variable.
   ///
   /// CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   @override
   void decode(KeyedArchive object) {

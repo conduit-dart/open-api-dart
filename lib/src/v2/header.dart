@@ -6,8 +6,8 @@ import 'package:conduit_open_api/src/v2/types.dart';
 class APIHeader extends APIProperty {
   APIHeader();
 
-  String description;
-  APIProperty items;
+  String? description;
+  APIProperty? items;
 
   @override
   void decode(KeyedArchive json) {

@@ -12,7 +12,7 @@ class APIResponse extends APIObject {
       {Iterable<String> contentTypes = const ["application/json"],
       this.headers}) {
     content = contentTypes.fold({}, (prev, elem) {
-      prev[elem] = APIMediaType(schema: schema);
+      prev![elem] = APIMediaType(schema: schema);
       return prev;
     });
   }
@@ -20,17 +20,17 @@ class APIResponse extends APIObject {
   /// A short description of the response.
   ///
   /// REQUIRED. CommonMark syntax MAY be used for rich text representation.
-  String description;
+  String? description;
 
   /// Maps a header name to its definition.
   ///
   /// RFC7230 states header names are case insensitive. If a response header is defined with the name "Content-Type", it SHALL be ignored.
-  Map<String, APIHeader> headers;
+  Map<String, APIHeader?>? headers;
 
   /// A map containing descriptions of potential response payloads.
   ///
   /// The key is a media type or media type range and the value describes it. For responses that match multiple keys, only the most specific key is applicable. e.g. text/plain overrides text/*
-  Map<String, APIMediaType> content;
+  Map<String, APIMediaType?>? content;
 
   // Currently missing:
   // links
@@ -39,10 +39,10 @@ class APIResponse extends APIObject {
   ///
   /// If [headers] is null, it is created. If the key does not exist in [headers], [header] is added for the key.
   /// If the key exists, [header] is not added. (To replace a header, access [headers] directly.)
-  void addHeader(String name, APIHeader header) {
+  void addHeader(String name, APIHeader? header) {
     headers ??= {};
-    if (!headers.containsKey(name)) {
-      headers[name] = header;
+    if (!headers!.containsKey(name)) {
+      headers![name] = header;
     }
   }
 
@@ -52,19 +52,19 @@ class APIResponse extends APIObject {
   ///
   /// If [content] is null, it is created. If [contentType] does not exist in [content], [bodyObject] is added for [contentType].
   /// If [contentType] exists, the [bodyObject] is added the list of possible schemas that were previously added.
-  void addContent(String contentType, APISchemaObject bodyObject) {
+  void addContent(String contentType, APISchemaObject? bodyObject) {
     content ??= {};
 
     final key = contentType;
-    final existingContent = content[key];
+    final existingContent = content![key];
     if (existingContent == null) {
-      content[key] = APIMediaType(schema: bodyObject);
+      content![key] = APIMediaType(schema: bodyObject);
       return;
     }
 
     final schema = existingContent.schema;
     if (schema?.oneOf != null) {
-      schema.oneOf.add(bodyObject);
+      schema!.oneOf!.add(bodyObject);
     } else {
       final container = APISchemaObject()..oneOf = [schema, bodyObject];
       existingContent.schema = container;

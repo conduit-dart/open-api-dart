@@ -16,35 +16,35 @@ class APIComponents extends APIObject {
 
   APIComponents.empty();
 
-  /// An object to hold reusable [APISchemaObject].
-  Map<String, APISchemaObject> schemas = {};
+  /// An object to hold reusable [APISchemaObject?].
+  Map<String, APISchemaObject?>? schemas = {};
 
-  /// An object to hold reusable [APIResponse].
-  Map<String, APIResponse> responses = {};
+  /// An object to hold reusable [APIResponse?].
+  Map<String, APIResponse?>? responses = {};
 
-  /// An object to hold reusable [APIParameter].
-  Map<String, APIParameter> parameters = {};
+  /// An object to hold reusable [APIParameter?].
+  Map<String, APIParameter?>? parameters = {};
 
   //Map<String, APIExample> examples = {};
 
-  /// An object to hold reusable [APIRequestBody].
-  Map<String, APIRequestBody> requestBodies = {};
+  /// An object to hold reusable [APIRequestBody?].
+  Map<String, APIRequestBody?>? requestBodies = {};
 
   /// An object to hold reusable [APIHeader].
-  Map<String, APIHeader> headers = {};
+  Map<String, APIHeader?>? headers = {};
 
-  /// An object to hold reusable [APISecurityScheme].
-  Map<String, APISecurityScheme> securitySchemes = {};
+  /// An object to hold reusable [APISecurityScheme?].
+  Map<String, APISecurityScheme?>? securitySchemes = {};
 
   //Map<String, APILink> links = {};
 
-  /// An object to hold reusable [APICallback].
-  Map<String, APICallback> callbacks = {};
+  /// An object to hold reusable [APICallback?].
+  Map<String, APICallback?>? callbacks = {};
 
   /// Returns a component definition for [uri].
   ///
   /// Construct [uri] as a path, e.g. `Uri(path: /components/schemas/name)`.
-  APIObject resolveUri(Uri uri) {
+  APIObject? resolveUri(Uri uri) {
     final segments = uri.pathSegments;
     if (segments.length != 3) {
       throw ArgumentError(
@@ -56,7 +56,7 @@ class APIComponents extends APIObject {
           "Invalid reference URI: does not begin with /components/");
     }
 
-    Map<String, APIObject> namedMap;
+    Map<String, APIObject?>? namedMap;
     switch (segments[1]) {
       case "schemas":
         namedMap = schemas;
@@ -89,30 +89,30 @@ class APIComponents extends APIObject {
     return namedMap[segments.last];
   }
 
-  T resolve<T extends APIObject>(T refObject) {
+  T? resolve<T extends APIObject>(T refObject) {
     if (refObject.referenceURI == null) {
       throw ArgumentError("APIObject is not a reference to a component.");
     }
 
-    return resolveUri(refObject.referenceURI) as T;
+    return resolveUri(refObject.referenceURI!) as T?;
   }
 
   @override
   void decode(KeyedArchive object) {
     super.decode(object);
 
-    schemas = object.decodeObjectMap("schemas", () => APISchemaObject());
+    schemas = object.decodeObjectMap("schemas", () => APISchemaObject())!;
     responses = object.decodeObjectMap("responses", () => APIResponse.empty());
     parameters =
         object.decodeObjectMap("parameters", () => APIParameter.empty());
-//    examples = object.decodeObjectMap("examples", () => new APIExample());
+//    examples = object.decodeObjectMap("examples", () => APIExample());
     requestBodies =
         object.decodeObjectMap("requestBodies", () => APIRequestBody.empty());
     headers = object.decodeObjectMap("headers", () => APIHeader());
 
     securitySchemes =
         object.decodeObjectMap("securitySchemes", () => APISecurityScheme());
-//    links = object.decodeObjectMap("links", () => new APILink());
+//    links = object.decodeObjectMap("links", () => APILink());
     callbacks = object.decodeObjectMap("callbacks", () => APICallback());
   }
 

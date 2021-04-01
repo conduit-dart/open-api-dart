@@ -19,21 +19,21 @@ class APIDocument extends APIObject {
   }
 
   String version = "2.0";
-  APIInfo info = APIInfo();
-  String host;
-  String basePath;
+  APIInfo? info = APIInfo();
+  String? host;
+  String? basePath;
 
-  List<APITag> tags = [];
-  List<String> schemes = [];
-  List<String> consumes = [];
-  List<String> produces = [];
-  List<Map<String, List<String>>> security = [];
+  List<APITag?>? tags = [];
+  List<String>? schemes = [];
+  List<String>? consumes = [];
+  List<String>? produces = [];
+  List<Map<String, List<String?>>?> security = [];
 
-  Map<String, APIPath> paths = {};
-  Map<String, APIResponse> responses = {};
-  Map<String, APIParameter> parameters = {};
-  Map<String, APISchemaObject> definitions = {};
-  Map<String, APISecurityScheme> securityDefinitions = {};
+  Map<String, APIPath?>? paths = {};
+  Map<String, APIResponse?>? responses = {};
+  Map<String, APIParameter?>? parameters = {};
+  Map<String, APISchemaObject?>? definitions = {};
+  Map<String, APISecurityScheme?>? securityDefinitions = {};
 
   Map<String, dynamic> asMap() {
     return KeyedArchive.archive(this, allowReferences: true);

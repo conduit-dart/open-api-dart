@@ -8,16 +8,16 @@ void main() {
   group("Components and resolution", () {
     test("Can resolve object against registry", () {
       final components = APIComponents();
-      components.schemas["foo"] = APISchemaObject.string();
+      components.schemas!["foo"] = APISchemaObject.string();
 
       final ref = APISchemaObject()
         ..referenceURI = Uri.parse("/components/schemas/foo");
       final orig = components.resolve(ref);
-      expect(orig.type, APIType.string);
+      expect(orig!.type, APIType.string);
       expect(ref.type, isNull);
 
-      final APISchemaObject constructed =
-          components.resolveUri(Uri(path: "/components/schemas/foo")) as APISchemaObject;
+      final APISchemaObject constructed = components
+          .resolveUri(Uri(path: "/components/schemas/foo")) as APISchemaObject;
       expect(constructed.type, APIType.string);
     });
 
@@ -74,10 +74,10 @@ void main() {
         }
       });
 
-      expect(doc.components.schemas["container"].referenceURI.path,
+      expect(doc.components!.schemas!["container"]!.referenceURI!.path,
           "/components/schemas/string");
 
-      doc.components.schemas["other"] = APISchemaObject()
+      doc.components!.schemas!["other"] = APISchemaObject()
         ..referenceURI = Uri(path: "/components/schemas/container");
 
       final out = doc.asMap();
@@ -89,8 +89,8 @@ void main() {
   });
 
   group("Stripe spec", () {
-    APIDocument doc;
-    Map<String, dynamic> original;
+    APIDocument? doc;
+    Map<String, dynamic>? original;
 
     setUpAll(() {
       // Spec file is too large for pub, and no other way to remove from pub publish
@@ -103,89 +103,93 @@ void main() {
     });
 
     test("Emits same document in asMap()", () {
-      expect(doc.asMap(), original);
+      expect(doc!.asMap(), original);
     });
 
     test("Has openapi version", () {
-      expect(doc.version, "3.0.0");
+      expect(doc!.version, "3.0.0");
     });
 
     test("Has info", () {
-      expect(doc.info.title, "Stripe API");
-      expect(doc.info.version, isNotNull);
-      expect(doc.info.description,
+      expect(doc!.info!.title, "Stripe API");
+      expect(doc!.info!.version, isNotNull);
+      expect(doc!.info!.description,
           "The Stripe REST API. Please see https://stripe.com/docs/api for more details.");
-      expect(doc.info.termsOfServiceURL.toString(),
+      expect(doc!.info!.termsOfServiceURL.toString(),
           "https://stripe.com/us/terms/");
-      expect(doc.info.contact.email, "dev-platform@stripe.com");
-      expect(doc.info.contact.name, "Stripe Dev Platform Team");
-      expect(doc.info.contact.url.toString(), "https://stripe.com");
-      expect(doc.info.license, isNull);
+      expect(doc!.info!.contact!.email, "dev-platform@stripe.com");
+      expect(doc!.info!.contact!.name, "Stripe Dev Platform Team");
+      expect(doc!.info!.contact!.url.toString(), "https://stripe.com");
+      expect(doc!.info!.license, isNull);
     });
 
     test("Has servers", () {
-      expect(doc.servers.length, 1);
-      expect(doc.servers.first.url.toString(), "https://api.stripe.com/");
-      expect(doc.servers.first.description, isNull);
-      expect(doc.servers.first.variables, isNull);
+      expect(doc!.servers!.length, 1);
+      expect(doc!.servers!.first!.url.toString(), "https://api.stripe.com/");
+      expect(doc!.servers!.first!.description, isNull);
+      expect(doc!.servers!.first!.variables, isNull);
     });
 
     test("Tags", () {
-      expect(doc.tags, isNull);
+      expect(doc!.tags, isNull);
     });
 
     group("Paths", () {
       test("Sample path 1", () {
-        final p = doc.paths["/v1/transfers/{transfer}/reversals/{id}"];
+        final p = doc!.paths!["/v1/transfers/{transfer}/reversals/{id}"];
         expect(p, isNotNull);
-        expect(p.description, isNull);
+        expect(p!.description, isNull);
 
-        expect(p.operations.length, 2);
+        expect(p.operations!.length, 2);
 
-        final getOp = p.operations["get"];
-        final getParams = getOp.parameters;
+        final getOp = p.operations!["get"];
+        final getParams = getOp!.parameters;
         final getResponses = getOp.responses;
         expect(getOp.description, contains("10 most recent reversals"));
         expect(getOp.id, "TransferReversalRetrieve");
-        expect(getParams.length, 3);
-        expect(getParams[0].location, APIParameterLocation.query);
-        expect(getParams[0].description,
+        expect(getParams!.length, 3);
+        expect(getParams[0]!.location, APIParameterLocation.query);
+        expect(getParams[0]!.description,
             "Specifies which fields in the response should be expanded.");
-        expect(getParams[0].name, "expand");
-        expect(getParams[0].isRequired, false);
-        expect(getParams[0].schema.type, APIType.array);
-        expect(getParams[0].schema.items.type, APIType.string);
+        expect(getParams[0]!.name, "expand");
+        expect(getParams[0]!.isRequired, false);
+        expect(getParams[0]!.schema!.type, APIType.array);
+        expect(getParams[0]!.schema!.items!.type, APIType.string);
 
-        expect(getParams[1].location, APIParameterLocation.path);
-        expect(getParams[1].name, "id");
-        expect(getParams[1].isRequired, true);
-        expect(getParams[1].schema.type, APIType.string);
+        expect(getParams[1]!.location, APIParameterLocation.path);
+        expect(getParams[1]!.name, "id");
+        expect(getParams[1]!.isRequired, true);
+        expect(getParams[1]!.schema!.type, APIType.string);
 
-        expect(getParams[2].location, APIParameterLocation.path);
-        expect(getParams[2].name, "transfer");
-        expect(getParams[2].isRequired, true);
-        expect(getParams[2].schema.type, APIType.string);
+        expect(getParams[2]!.location, APIParameterLocation.path);
+        expect(getParams[2]!.name, "transfer");
+        expect(getParams[2]!.isRequired, true);
+        expect(getParams[2]!.schema!.type, APIType.string);
 
-        expect(getResponses.length, 2);
-        expect(getResponses["200"].content.length, 1);
+        expect(getResponses!.length, 2);
+        expect(getResponses["200"]!.content!.length, 1);
         expect(
-            getResponses["200"].content["application/json"].schema.referenceURI,
+            getResponses["200"]!
+                .content!["application/json"]!
+                .schema!
+                .referenceURI,
             Uri.parse(
                 Uri.parse("#/components/schemas/transfer_reversal").fragment));
 
-        final resolvedElement = getResponses["200"]
-            .content["application/json"]
-            .schema
-            .properties["balance_transaction"]
+        final resolvedElement = getResponses["200"]!
+            .content!["application/json"]!
+            .schema!
+            .properties!["balance_transaction"]!
             .anyOf;
-        expect(resolvedElement.last.properties["amount"].type, APIType.integer);
+        expect(resolvedElement!.last!.properties!["amount"]!.type,
+            APIType.integer);
       });
     });
 
     group("Components", () {});
 
     test("Security requirement", () {
-      expect(doc.security, isNull);
+      expect(doc!.security, isNull);
     });
   });
 
@@ -202,7 +206,7 @@ void main() {
         }
       });
 
-      expect(doc.components.schemas["freeform"].additionalPropertyPolicy,
+      expect(doc.components!.schemas!["freeform"]!.additionalPropertyPolicy,
           APISchemaAdditionalPropertyPolicy.freeForm);
 
       expect(
@@ -227,7 +231,7 @@ void main() {
           }
         }
       });
-      expect(doc.components.schemas["freeform"].additionalPropertyPolicy,
+      expect(doc.components!.schemas!["freeform"]!.additionalPropertyPolicy,
           APISchemaAdditionalPropertyPolicy.freeForm);
       expect(
           doc.asMap()["components"]["schemas"]["freeform"]["type"], "object");
@@ -247,39 +251,39 @@ void main() {
       // when null
       resp.addHeader(
           "x", APIHeader(schema: APISchemaObject.string(format: "initial")));
-      expect(resp.headers["x"].schema.format, "initial");
+      expect(resp.headers!["x"]!.schema!.format, "initial");
 
       // add more than one
       resp.addHeader(
           "y", APIHeader(schema: APISchemaObject.string(format: "second")));
-      expect(resp.headers["x"].schema.format, "initial");
-      expect(resp.headers["y"].schema.format, "second");
+      expect(resp.headers!["x"]!.schema!.format, "initial");
+      expect(resp.headers!["y"]!.schema!.format, "second");
 
       // cannot replace
       resp.addHeader(
           "y", APIHeader(schema: APISchemaObject.string(format: "third")));
-      expect(resp.headers["x"].schema.format, "initial");
-      expect(resp.headers["y"].schema.format, "second");
+      expect(resp.headers!["x"]!.schema!.format, "initial");
+      expect(resp.headers!["y"]!.schema!.format, "second");
     });
 
     test("'addContent'", () {
-      final resp = APIResponse("Response");
+      var resp = APIResponse("Response");
 
       // when null
       resp.addContent("x/a", APISchemaObject.string(format: "initial"));
-      expect(resp.content["x/a"].schema.format, "initial");
+      expect(resp.content!["x/a"]!.schema!.format, "initial");
 
       // add more than one
       resp.addContent("y/a", APISchemaObject.string(format: "second"));
-      expect(resp.content["x/a"].schema.format, "initial");
-      expect(resp.content["y/a"].schema.format, "second");
+      expect(resp.content!["x/a"]!.schema!.format, "initial");
+      expect(resp.content!["y/a"]!.schema!.format, "second");
 
       // joins schema in oneOf if key exists
       resp.addContent("y/a", APISchemaObject.string(format: "third"));
-      expect(resp.content["x/a"].schema.format, "initial");
+      expect(resp.content!["x/a"]!.schema!.format, "initial");
 
-      expect(resp.content["y/a"].schema.oneOf.first.format, "second");
-      expect(resp.content["y/a"].schema.oneOf.last.format, "third");
+      expect(resp.content!["y/a"]!.schema!.oneOf!.first!.format, "second");
+      expect(resp.content!["y/a"]!.schema!.oneOf!.last!.format, "third");
     });
 
     test("'addResponse'", () {
@@ -288,7 +292,7 @@ void main() {
       // when null
       op.addResponse(200,
           APIResponse.schema("OK", APISchemaObject.string(format: "initial")));
-      expect(op.responses["200"].content["application/json"].schema.format,
+      expect(op.responses!["200"]!.content!["application/json"]!.schema!.format,
           "initial");
 
       // add more than one
@@ -299,9 +303,9 @@ void main() {
             "initial":
                 APIHeader(schema: APISchemaObject.string(format: "initial"))
           }));
-      expect(op.responses["200"].content["application/json"].schema.format,
+      expect(op.responses!["200"]!.content!["application/json"]!.schema!.format,
           "initial");
-      expect(op.responses["400"].content["application/json"].schema.format,
+      expect(op.responses!["400"]!.content!["application/json"]!.schema!.format,
           "second");
 
       // join responses when key exists
@@ -312,15 +316,15 @@ void main() {
                 "second":
                     APIHeader(schema: APISchemaObject.string(format: "initial"))
               }));
-      expect(op.responses["200"].content["application/json"].schema.format,
+      expect(op.responses!["200"]!.content!["application/json"]!.schema!.format,
           "initial");
 
-      final r400 = op.responses["400"];
+      final r400 = op.responses!["400"]!;
       expect(r400.description, contains("KINDABAD"));
       expect(r400.description, contains("REALBAD"));
-      expect(r400.content["application/json"].schema.oneOf, isNotNull);
-      expect(r400.headers["initial"], isNotNull);
-      expect(r400.headers["second"], isNotNull);
+      expect(r400.content!["application/json"]!.schema!.oneOf, isNotNull);
+      expect(r400.headers!["initial"], isNotNull);
+      expect(r400.headers!["second"], isNotNull);
     });
 
     test("'addResponse' guards against null value", () {
@@ -330,7 +334,7 @@ void main() {
           400,
           APIResponse.schema(
               "KINDABAD", APISchemaObject.string(format: "second")));
-      expect(op.responses["400"].content["application/json"].schema.format,
+      expect(op.responses!["400"]!.content!["application/json"]!.schema!.format,
           "second");
 
       op.addResponse(
@@ -338,9 +342,9 @@ void main() {
           APIResponse.schema(
               "REALBAD", APISchemaObject.string(format: "third")));
       expect(
-          op.responses["400"].content["application/json"].schema.oneOf.length,
+          op.responses!["400"]!.content!["application/json"]!.schema!.oneOf!
+              .length,
           2);
     });
   });
-  
 }
