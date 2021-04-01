@@ -1,3 +1,8 @@
+# 1.0.0-b2
+restored the kubenetes test file as we found a v2 version. reverted some fields to be nullable as the document uses null to know that they were not present in the original document.
+Remove the curl commands as the unit tests now fetch the required files themselves.
+changed components so that they return a non-nullable list.
+
 # 1.0.0-b1
 Completed work on migrating to conduit_codable and nnbd migration.
 Added lint package and resolved all automated fixes.
