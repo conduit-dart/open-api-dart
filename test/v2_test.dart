@@ -19,9 +19,7 @@ void main() {
       final file = File(config);
       final contents = file.readAsStringSync();
       original = json.decode(contents) as Map<String, dynamic>;
-      if (original != null) {
-        doc = APIDocument.fromMap(original!);
-      }
+      doc = APIDocument.fromMap(original!);
     });
 
     test("Has all metadata", () {
