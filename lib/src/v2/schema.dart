@@ -31,7 +31,8 @@ class APISchemaObject extends APIProperty {
   }
 
   @override
-  Map<String, cast.Cast> get castMap => {"required": const cast.List(cast.string)};
+  Map<String, cast.Cast> get castMap =>
+      {"required": const cast.List(cast.string)};
 
   @override
   void decode(KeyedArchive json) {

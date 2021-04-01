@@ -31,7 +31,7 @@ void main() {
       expect(doc!.host, "petstore.swagger.io");
       expect(doc!.basePath, "/v1");
       expect(doc!.tags, isNull);
-      expect(doc!.schemes!.first,  "http");
+      expect(doc!.schemes!.first, "http");
     });
 
     test("Confirm top-level objects", () {

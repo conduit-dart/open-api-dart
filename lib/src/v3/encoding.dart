@@ -1,4 +1,3 @@
-
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_open_api/src/object.dart';
 import 'package:conduit_open_api/src/v3/header.dart';
@@ -48,8 +47,8 @@ class APIEncoding extends APIObject {
 
     contentType = object.decode("contentType");
     headers = object.decodeObjectMap("headers", () => APIHeader());
-    allowReserved = object.decode("allowReserved") ;
-    explode = object.decode("explode") ;
+    allowReserved = object.decode("allowReserved");
+    explode = object.decode("explode");
     style = object.decode("style");
   }
 

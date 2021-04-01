@@ -1,3 +1,8 @@
+# 1.0.0-b1
+Completed work on migrating to conduit_codable and nnbd migration.
+Added lint package and resolved all automated fixes.
+renamed project to conduit_open_api
+nnbd migration
 # Changelog
 
 ## 2.0.1

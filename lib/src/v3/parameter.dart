@@ -1,4 +1,3 @@
-
 import 'package:conduit_codable/conduit_codable.dart';
 import 'package:conduit_open_api/src/object.dart';
 import 'package:conduit_open_api/src/v3/document.dart';
@@ -201,14 +200,14 @@ class APIParameter extends APIObject {
     name = object.decode("name");
     description = object.decode("description");
     location = APIParameterLocationCodec.decode(object.decode("in"));
-    _required = object.decode("required") ;
+    _required = object.decode("required");
 
     deprecated = object.decode("deprecated");
     allowEmptyValue = object.decode("allowEmptyValue");
 
     schema = object.decodeObject("schema", () => APISchemaObject());
     style = object.decode("style");
-    explode = object.decode("explode") ;
+    explode = object.decode("explode");
     allowReserved = object.decode("allowReserved");
     content = object.decodeObjectMap("content", () => APIMediaType());
   }
