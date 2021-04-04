@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:conduit_open_api/v2.dart';
-import 'package:dcli/dcli.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,8 +14,7 @@ void main() {
 
     setUpAll(() {
       /// download sample api document if we don't already have it.
-      final String config = fetchKubernetesExample();
-      final file = File(config);
+      final file = File("test/specs/kubernetes.json");
       final contents = file.readAsStringSync();
       original = json.decode(contents) as Map<String, dynamic>;
       doc = APIDocument.fromMap(original!);
@@ -82,7 +80,7 @@ void main() {
       final response = apiPathGet!.responses!["200"];
       final schema = response!.schema;
       expect(schema!.description, contains("APIVersions lists the"));
-      expect(schema.isRequired, ["versions", "serverAddressByClientCIDRs"]);
+      expect(schema.required, ["versions", "serverAddressByClientCIDRs"]);
       expect(
           schema.properties!["serverAddressByClientCIDRs"]!.items!
               .properties!["clientCIDR"]!.description,
@@ -93,20 +91,4 @@ void main() {
       expect(json.encode(doc!.asMap()), isA<String>());
     });
   });
-}
-
-String fetchKubernetesExample() {
-  const config = "test/specs/kubernetes.json";
-  if (!exists(config)) {
-    if (!exists(dirname(config))) {
-      createDir(dirname(config), recursive: true);
-    }
-
-    fetch(
-        url:
-            'https://raw.githubusercontent.com/kubernetes/kubernetes/f091073b0fb4d3a550e7f182eb5465338c8b7cbf/api/openapi-spec/swagger.json',
-//            'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/0f9d3ec7c033fef184ec54e1ffc201b2d61ce023/examples/v2.0/json/petstore.json',
-        saveToPath: config);
-  }
-  return config;
 }
