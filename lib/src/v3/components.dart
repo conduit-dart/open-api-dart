@@ -45,7 +45,7 @@ class APIComponents extends APIObject {
   /// Returns a component definition for [uri].
   ///
   /// Construct [uri] as a path, e.g. `Uri(path: /components/schemas/name)`.
-  APIObject? resolveUri(Uri uri) {
+  APIObject resolveUri(Uri uri) {
     final segments = uri.pathSegments;
     if (segments.length != 3) {
       throw ArgumentError(
@@ -87,15 +87,22 @@ class APIComponents extends APIObject {
           "Invalid reference URI: component type '${segments[1]}' does not exist.");
     }
 
-    return namedMap[segments.last];
+    final result = namedMap[segments.last];
+
+    if (result == null) {
+      throw ArgumentError(
+          "Invalid reference URI: component '${segments.last}' does not exist.");
+    }
+
+    return result;
   }
 
-  T? resolve<T extends APIObject>(T refObject) {
+  T resolve<T extends APIObject>(T refObject) {
     if (refObject.referenceURI == null) {
       throw ArgumentError("APIObject is not a reference to a component.");
     }
 
-    return resolveUri(refObject.referenceURI!) as T?;
+    return resolveUri(refObject.referenceURI!) as T;
   }
 
   @override
