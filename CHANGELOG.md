@@ -1,3 +1,6 @@
+# 1.0.0-b4
+fix empty v3 path
+
 # 1.0.0-b3
 Improved the readme.
 Merge branch 'master' of https://github.com/noojee/open-api-dart-1
