@@ -33,15 +33,15 @@ class APIPath extends APIObject {
   /// Returns true if [parameters] contains path parameters with names that match [parameterNames] and
   /// both lists have the same number of elements.
   bool containsPathParameters(List<String> parameterNames) {
-    final pathParams = parameters!
-        .where((p) => p?.location == APIParameterLocation.path)
+    final pathParams = parameters
+        ?.where((p) => p?.location == APIParameterLocation.path)
         .map((p) => p?.name)
         .toList();
-    if (pathParams.length != parameterNames.length) {
+    if (pathParams?.length != parameterNames.length) {
       return false;
     }
 
-    return parameterNames.every((check) => pathParams.contains(check));
+    return parameterNames.every((check) => pathParams!.contains(check));
   }
 
   // todo (joeconwaystk): alternative servers not yet implemented
@@ -81,7 +81,9 @@ class APIPath extends APIObject {
 
     object.encode("summary", summary);
     object.encode("description", description);
-    object.encodeObjects("parameters", parameters);
+    if (parameters?.isNotEmpty ?? false) {
+      object.encodeObjects("parameters", parameters);
+    }
 
     operations!.forEach((opName, op) {
       object.encodeObject(opName.toLowerCase(), op);
