@@ -81,9 +81,7 @@ class APIPath extends APIObject {
 
     object.encode("summary", summary);
     object.encode("description", description);
-    if (parameters!.isNotEmpty) {
-      object.encodeObjects("parameters", parameters);
-    }
+    object.encodeObjects("parameters", parameters);
 
     operations!.forEach((opName, op) {
       object.encodeObject(opName.toLowerCase(), op);
