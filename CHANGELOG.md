@@ -1,5 +1,5 @@
 # 1.0.0-b5
-simplify encoding
+null checks in path
 
 # 1.0.0-b4
 fix empty v3 path
