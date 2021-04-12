@@ -1,5 +1,8 @@
+# 1.0.0-b6
+patch changes for conduit beta
+
 # 1.0.0-b5
-null checks in path
+simplify encoding
 
 # 1.0.0-b4
 fix empty v3 path
