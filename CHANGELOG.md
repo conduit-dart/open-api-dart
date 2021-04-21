@@ -1,4 +1,4 @@
-# 1.0.0-b4
+# 1.0.0-b5
 upgraded to released version of dcli.
 Moved back to resolveUri returning null to avoid breaking the existing api.
 
