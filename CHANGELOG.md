@@ -1,3 +1,7 @@
+# 1.0.0-b4
+upgraded to released version of dcli.
+Moved back to resolveUri returning null to avoid breaking the existing api.
+
 # 1.0.0-b3
 Improved the readme.
 Merge branch 'master' of https://github.com/noojee/open-api-dart-1
