@@ -87,7 +87,9 @@ class APIComponents extends APIObject {
           "Invalid reference URI: component type '${segments[1]}' does not exist.");
     }
 
-    return namedMap[segments.last];
+    final result = namedMap[segments.last];
+
+    return result;
   }
 
   T? resolve<T extends APIObject>(T refObject) {
