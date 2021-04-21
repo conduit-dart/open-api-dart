@@ -14,7 +14,8 @@ void main() {
       final ref = APISchemaObject()
         ..referenceURI = Uri.parse("/components/schemas/foo");
       final orig = components.resolve(ref);
-      expect(orig.type, APIType.string);
+      expect(orig, isNotNull);
+      expect(orig!.type, APIType.string);
       expect(ref.type, isNull);
 
       final APISchemaObject? constructed = components
