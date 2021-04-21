@@ -107,7 +107,7 @@ class APIOperation extends APIObject {
   /// If a response already exists for this [statusCode], [response]'s content
   /// and headers are added to the list of possible content and headers for the existing response. Descriptions
   /// of each response are joined together. All headers are marked as optional..
-  void addResponse(int statusCode, APIResponse response) {
+  void addResponse(int statusCode, APIResponse? response) {
     responses ??= {};
 
     final key = "$statusCode";
@@ -119,7 +119,7 @@ class APIOperation extends APIObject {
     }
 
     existingResponse.description =
-        "${existingResponse.description ?? ""}\n${response.description}";
+        "${existingResponse.description ?? ""}\n${response!.description}";
     response.headers?.forEach((name, header) {
       existingResponse.addHeader(name, header);
     });

@@ -1,6 +1,16 @@
+
 # 1.0.0-b7
 upgraded to released version of dcli.
 Moved back to resolveUri returning null to avoid breaking the existing api.
+
+# 1.0.0-b6
+patch changes for conduit beta
+
+# 1.0.0-b5
+simplify encoding
+
+# 1.0.0-b4
+fix empty v3 path
 
 # 1.0.0-b3
 Improved the readme.
