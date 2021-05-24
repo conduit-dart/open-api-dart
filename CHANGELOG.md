@@ -1,3 +1,5 @@
+# 1.0.0-b8
+- Fix null-checking issue, tested against Conduit 
 
 # 1.0.0-b7
 upgraded to released version of dcli.

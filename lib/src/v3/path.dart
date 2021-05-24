@@ -12,10 +12,12 @@ class APIPath extends APIObject {
       this.description,
       List<APIParameter?>? parameters,
       Map<String, APIOperation?>? operations}) {
-    this.parameters = parameters ?? <APIParameter?>[];
-    this.operations = operations ?? <String, APIOperation?>{};
+    this.parameters = parameters ?? [];
+    this.operations = operations ?? {};
   }
-  APIPath.empty();
+  APIPath.empty()
+      : parameters = <APIParameter?>[],
+        operations = <String, APIOperation?>{};
 
   /// An optional, string summary, intended to apply to all operations in this path.
   String? summary;
@@ -28,12 +30,12 @@ class APIPath extends APIObject {
   /// A list of parameters that are applicable for all the operations described under this path.
   ///
   /// These parameters can be overridden at the operation level, but cannot be removed there. The list MUST NOT include duplicated parameters. A unique parameter is defined by a combination of a name and location. The list can use the Reference Object to link to parameters that are defined at the OpenAPI Object's components/parameters.
-  List<APIParameter?> parameters = <APIParameter?>[];
+  late List<APIParameter?> parameters;
 
   /// Definitions of operations on this path.
   ///
   /// Keys are lowercased HTTP methods, e.g. get, put, delete, post, etc.
-  Map<String, APIOperation?> operations = <String, APIOperation?>{};
+  late Map<String, APIOperation?> operations;
 
   /// Returns true if this path has path parameters [parameterNames].
   ///
